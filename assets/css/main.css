@@ -1141,17 +1141,12 @@ input, select, textarea {
 			transition-delay: 0.75s;
 			background-image: 
 				linear-gradient(to top, rgba(19, 21, 25, 0.5), rgba(19, 21, 25, 0.5)),
-				url("../../images/overlay.png"),
-				url("../../images/RAC-Arrow_3.webp");
-			background-size: auto, 256px 256px, 60% auto;
-			background-position: center, center, 120% bottom;
-			background-repeat: no-repeat, repeat, no-repeat;
+				url("../../images/overlay.png");
+			background-size: auto, 256px 256px;
+			background-position: center, center;
+			background-repeat: no-repeat, repeat;
 			opacity: 0.15;
 			z-index: 2;
-			-moz-filter: blur(8px);
-			-webkit-filter: blur(8px);
-			-ms-filter: blur(8px);
-			filter: blur(8px);
 		}
 
 		#bg:after {
@@ -1740,4 +1735,8 @@ body.animations-complete .tagline-animate {
 	-webkit-filter: blur(8px);
 	-ms-filter: blur(8px);
 	filter: blur(8px);
+	transform: translateZ(0); /* Force GPU acceleration */
+	-webkit-transform: translateZ(0);
+	-moz-transform: translateZ(0);
+	-ms-transform: translateZ(0);
 }
