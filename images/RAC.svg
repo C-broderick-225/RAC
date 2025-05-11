@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 595.28 841.89">
+  <!-- Generator: Adobe Illustrator 29.4.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 152)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #e6e7e8;
+        stroke: #231f20;
+        stroke-linecap: round;
+        stroke-miterlimit: 10;
+      }
+
+      .st1 {
+        font-family: MyriadPro-Regular, 'Myriad Pro';
+        font-size: 60px;
+      }
+
+      .st1, .st2 {
+        fill: #231f20;
+      }
+
+      .st1, .st3 {
+        isolation: isolate;
+      }
+    </style>
+  </defs>
+  <g class="st3">
+    <text class="st1" transform="translate(434.1 787.23)"><tspan x="0" y="0">RAC</tspan></text>
+  </g>
+  <rect class="st2" x="265.68" y="383.22" width="1.01" height="2.61"/>
+  <path class="st0" d="M336.05,304.02"/>
+  <path class="st0" d="M397.2,372.17c0,56.73-45.99,102.72-102.71,102.72s-102.72-45.99-102.72-102.72,45.99-102.72,102.72-102.72,102.71,45.99,102.71,102.72Z"/>
+  <rect class="st0" x="282.99" y="395.19" width="26.26" height="79.7"/>
+  <polygon class="st0" points="336.42 284.37 253.76 284.37 295.09 241.06 336.42 284.37"/>
+  <polygon class="st0" points="203.24 419.38 295.09 269.45 386.94 419.38 203.24 419.38"/>
+</svg>
