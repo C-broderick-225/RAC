@@ -398,4 +398,14 @@
 						$main._show(location.hash.substr(1), true);
 					});
 
+	// Handle animations
+	document.addEventListener('DOMContentLoaded', function() {
+		// Wait for the longest animation to complete (logo animation + tagline delay + tagline duration)
+		const totalAnimationTime = 2.25 + 1 + 1.5; // logo duration + tagline delay + tagline duration
+		
+		setTimeout(function() {
+			document.body.classList.add('animations-complete');
+		}, totalAnimationTime * 1000);
+	});
+
 })(jQuery);

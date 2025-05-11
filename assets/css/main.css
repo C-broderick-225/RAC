@@ -1656,7 +1656,8 @@ input, select, textarea {
 	}
 }
 
-.rac-logo-fade-in {
+/* Only apply animations if body doesn't have animations-complete class */
+body:not(.animations-complete) .rac-logo-fade-in {
 	animation-name: fadeInSlow;
 	animation-duration: 2.25s;
 	animation-fill-mode: forwards;
@@ -1665,13 +1666,21 @@ input, select, textarea {
 	filter: blur(8px);
 }
 
-.tagline-animate {
+body:not(.animations-complete) .tagline-animate {
 	animation-name: slideUpFade;
 	animation-duration: 1.5s;
-	animation-delay: 1s; /* Start after logo animation begins */
+	animation-delay: 1s;
 	animation-fill-mode: forwards;
 	animation-timing-function: ease-out;
 	opacity: 0;
+}
+
+/* When animations are complete, ensure elements are visible */
+body.animations-complete .rac-logo-fade-in,
+body.animations-complete .tagline-animate {
+	opacity: 1;
+	filter: none;
+	transform: none;
 }
 
 /* Footer */
