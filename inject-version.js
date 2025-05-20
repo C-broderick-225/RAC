@@ -2,7 +2,7 @@ const fs = require('fs');
 const { execSync } = require('child_process');
 
 const version = execSync('git rev-parse --short HEAD').toString().trim();
-const filePath = 'index.html';
+const filePath = process.argv[2] || 'index.html';
 
 let html = fs.readFileSync(filePath, 'utf8');
 const replaced = html.includes('v__VERSION__');
