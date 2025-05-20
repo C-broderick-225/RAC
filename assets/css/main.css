@@ -1740,3 +1740,14 @@ body.animations-complete .tagline-animate {
 	-moz-transform: translateZ(0);
 	-ms-transform: translateZ(0);
 }
+
+#formStatusMessage {
+    margin-top: 1em;
+    font-weight: bold;
+}
+#formStatusMessage.success {
+    color: #4CAF50; /* Green for success */
+}
+#formStatusMessage.error {
+    color: #F44336; /* Red for error */
+}

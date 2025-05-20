@@ -12,6 +12,19 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<link rel="icon" type="image/png" href="images/favicon.webp">
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<style>
+			/* Basic styling for the form status message so it's visible */
+			#formStatusMessage {
+				margin-top: 1em;
+				font-weight: bold;
+			}
+			#formStatusMessage.success {
+				color: #4CAF50; /* Green for success */
+			}
+			#formStatusMessage.error {
+				color: #F44336; /* Red for error */
+			}
+		</style>
 	</head>
 	<body class="is-preload">
 
@@ -56,12 +69,12 @@
 								<span class="image main"><img src="images/pic02.jpg" alt="" /></span>
 								<p>At Rise Above Consulting, we specialize in handling a wide range of projects. Our expertise delivers practical solutions and achieves measurable outcomes across different sectors. Here are some examples of how we help clients elevate their endeavors:</p>
 								<ul>
-									<li><strong>Conceptual Design &amp; Visualization:</strong> Converting architectural sketches into precise 3D models, effectively visualizing initial concepts.</li>
+									<li><strong>Conceptual Design & Visualization:</strong> Converting architectural sketches into precise 3D models, effectively visualizing initial concepts.</li>
 									<li><strong>Product & Market Analysis:</strong> Developing detailed comparative analyses for specific needs to support informed decision-making.</li>
 									<li><strong>Strategic Business Development:</strong> Creating clear product proposals and strategic business plans that define objectives and outline steps for success.</li>
-									<li><strong>Digital Presence &amp; Web Solutions:</strong> Building custom websites and web applications, including specialized features like online galleries, to meet specific client needs.</li>
-									<li><strong>Brand Identity &amp; Visual Communication:</strong> Designing effective logos and conducting website evaluations to improve brand identity and user experience.</li>
-									<li><strong>Technical &amp; Creative Application:</strong> Applying expertise in graphics software and development principles to provide comprehensive solutions.</li>
+									<li><strong>Digital Presence & Web Solutions:</strong> Building custom websites and web applications, including specialized features like online galleries, to meet specific client needs.</li>
+									<li><strong>Brand Identity & Visual Communication:</strong> Designing effective logos and conducting website evaluations to improve brand identity and user experience.</li>
+									<li><strong>Technical & Creative Application:</strong> Applying expertise in graphics software and development principles to provide comprehensive solutions.</li>
 								</ul>
 							</article>
 
@@ -82,25 +95,26 @@
 									<li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/conorbrod" target="_blank">www.linkedin.com/in/conorbrod</a></li>
 								</ul>
 								
-								<form method="post" action="#">
+								<form id="contactForm"> 
 									<div class="fields">
 										<div class="field half">
 											<label for="name">Name</label>
-											<input type="text" name="name" id="name" />
+											<input type="text" name="name" id="name" required /> 
 										</div>
 										<div class="field half">
 											<label for="email">Email</label>
-											<input type="text" name="email" id="email" />
+											<input type="email" name="email" id="email" required /> 
 										</div>
 										<div class="field">
 											<label for="message">Message</label>
-											<textarea name="message" id="message" rows="4"></textarea>
+											<textarea name="message" id="message" rows="4" required></textarea> 
 										</div>
 									</div>
 									<ul class="actions">
-										<li><input type="submit" value="Send Message" class="primary" /></li>
-										<li><input type="reset" value="Reset" /></li>
+										<li><input type="submit" value="Send Message" class="primary" id="sendMessageButton" /></li> 
+										<li><input type="reset" value="Reset" id="resetButton" /></li> 
 									</ul>
+									<p id="formStatusMessage"></p> 
 								</form>
 								
 								<ul class="icons">
@@ -116,7 +130,7 @@
 
 				<!-- Footer -->
 					<footer id="footer">
-						<p class="copyright">&copy; Rise Above Consulting, LLC.
+						<p class="copyright">© Rise Above Consulting, LLC.
 					</footer>
 
 			</div>
@@ -130,6 +144,66 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+
+			<!-- ADDED: Contact Form Script -->
+			<script>
+				document.addEventListener('DOMContentLoaded', function() {
+					const contactForm = document.getElementById('contactForm');
+					const sendMessageButton = document.getElementById('sendMessageButton'); 
+					const formStatusMessage = document.getElementById('formStatusMessage');
+
+					// --- UPDATED GOOGLE APPS SCRIPT WEB APP URL ---
+					const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyHEV3BipwCJzQ-LEWgC7lLtrDuXGZ2PuTaqGfuhGHf/dev"; 
+
+					if (contactForm) {
+						contactForm.addEventListener('submit', function(event) {
+							event.preventDefault(); 
+
+							sendMessageButton.disabled = true;
+							sendMessageButton.value = 'SENDING...'; 
+							formStatusMessage.textContent = ''; 
+							formStatusMessage.className = ''; 
+
+							const formData = new FormData(contactForm);
+
+							fetch(SCRIPT_URL, {
+								method: 'POST',
+								body: formData,
+							})
+							.then(response => response.json())
+							.then(data => {
+								console.log('Success:', data);
+								if (data.result === "success") {
+									formStatusMessage.textContent = 'Message sent successfully!';
+									formStatusMessage.className = 'success';
+									contactForm.reset(); 
+								} else {
+									formStatusMessage.textContent = 'Error: ' + (data.message || 'Could not send message.');
+									formStatusMessage.className = 'error';
+								}
+							})
+							.catch(error => {
+								console.error('Error:', error);
+								formStatusMessage.textContent = 'Error sending message. Please try again later.';
+								formStatusMessage.className = 'error';
+							})
+							.finally(() => {
+								sendMessageButton.disabled = false;
+								sendMessageButton.value = 'SEND MESSAGE'; 
+							});
+						});
+					}
+
+					const resetButton = document.getElementById('resetButton'); 
+					if (resetButton && formStatusMessage) {
+						resetButton.addEventListener('click', function() {
+							formStatusMessage.textContent = '';
+							formStatusMessage.className = '';
+						});
+					}
+				});
+			</script>
+			<!-- End of Contact Form Script -->
 
 		<!-- Logo Overlay -->
 		<div class="logo-overlay"></div>
