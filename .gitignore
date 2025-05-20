@@ -1,2 +1,4 @@
 # Ignore the ftp_tools directory
-ftp_tools/ 
+ftp_tools/
+brand_messaging/
+website_review.md/
