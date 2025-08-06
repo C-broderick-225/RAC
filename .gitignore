@@ -6,3 +6,4 @@ inject-version.js
 build/
 RAC.code-workspace
 build.js
+code.js
