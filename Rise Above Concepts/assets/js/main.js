@@ -419,4 +419,55 @@
 		}, totalAnimationTime * 1000);
 	});
 
+	// Lightbox Functionality
+	$(document).ready(function () {
+		// Create lightbox elements
+		var $lightbox = $('<div class="lightbox"><button class="lightbox-close">&times;</button><img class="lightbox-content" src="" alt="Expanded Image"></div>');
+		$('body').append($lightbox);
+
+		var $lightboxContent = $lightbox.find('.lightbox-content');
+		var $lightboxClose = $lightbox.find('.lightbox-close');
+
+		// Escape key handler (bound only when lightbox is open)
+		function handleEscapeKey(e) {
+			if (e.key === "Escape") {
+				closeLightbox();
+			}
+		}
+
+		function openLightbox(imgSrc) {
+			$lightboxContent.attr('src', imgSrc);
+			$lightbox.addClass('active');
+			$(document).on('keydown.lightbox', handleEscapeKey);
+		}
+
+		function closeLightbox() {
+			$lightbox.removeClass('active');
+			$(document).off('keydown.lightbox');
+		}
+
+		// Open lightbox on thumbnail click - bind directly to thumbnails
+		$('.gallery-thumbnail').on('click', function (e) {
+			e.preventDefault();
+			e.stopPropagation();
+			var imgSrc = $(this).find('img').attr('src');
+			openLightbox(imgSrc);
+		});
+
+		// Close lightbox on close button click
+		$lightboxClose.on('click', function (e) {
+			e.preventDefault();
+			e.stopPropagation();
+			closeLightbox();
+		});
+
+		// Close lightbox on background click (but keep project modal open)
+		$lightbox.on('click', function (e) {
+			e.stopPropagation();
+			if (e.target !== $lightboxContent[0]) {
+				closeLightbox();
+			}
+		});
+	});
+
 })(jQuery);
