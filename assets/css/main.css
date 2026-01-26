@@ -1680,6 +1680,10 @@ body.is-preload #header .content .inner {
 
 #main article h2.major {
 	margin-bottom: 1.5rem;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	hyphens: auto;
+	max-width: 100%;
 }
 
 #main article .image.main {
@@ -1967,6 +1971,7 @@ body.is-preload #footer {
 .gallery-thumbnail {
 	flex: 0 0 180px;
 	width: 180px;
+	height: 120px;
 	cursor: pointer;
 	overflow: hidden;
 	border-radius: 8px;
@@ -1977,7 +1982,9 @@ body.is-preload #footer {
 
 .gallery-thumbnail img {
 	width: 100%;
-	height: auto;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
 	display: block;
 	transition: transform 0.3s ease;
 }
