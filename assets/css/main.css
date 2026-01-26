@@ -1998,7 +1998,9 @@ body.is-preload #footer {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background: rgba(0, 0, 0, 0.9);
+	background-color: rgba(27, 31, 34, 0.75);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
 	z-index: 10000;
 	display: flex;
 	justify-content: center;
@@ -2014,33 +2016,97 @@ body.is-preload #footer {
 	visibility: visible;
 }
 
-.lightbox-content {
+.lightbox-close {
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 4rem;
+	height: 4rem;
+	cursor: pointer;
+	background: transparent;
+	border: none;
+	outline: none;
+	text-indent: 4rem;
+	overflow: hidden;
+	white-space: nowrap;
+	z-index: 10001;
+}
+
+.lightbox-close:before {
+	-moz-transition: background-color 0.2s ease-in-out;
+	-webkit-transition: background-color 0.2s ease-in-out;
+	-ms-transition: background-color 0.2s ease-in-out;
+	transition: background-color 0.2s ease-in-out;
+	content: '';
+	display: block;
+	position: absolute;
+	top: 0.75rem;
+	left: 0.75rem;
+	width: 2.5rem;
+	height: 2.5rem;
+	border-radius: 100%;
+	background-position: center;
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='20px' height='20px' viewBox='0 0 20 20' zoomAndPan='disable'%3E%3Cstyle%3Eline %7B stroke: %23ffffff%3B stroke-width: 1%3B %7D%3C/style%3E%3Cline x1='2' y1='2' x2='18' y2='18' /%3E%3Cline x1='18' y1='2' x2='2' y2='18' /%3E%3C/svg%3E");
+	background-size: 20px 20px;
+	background-repeat: no-repeat;
+}
+
+.lightbox-close:hover:before {
+	background-color: rgba(255, 255, 255, 0.075);
+}
+
+.lightbox-close:active:before {
+	background-color: rgba(255, 255, 255, 0.175);
+}
+
+.lightbox-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	max-width: 90%;
 	max-height: 90vh;
+}
+
+.lightbox-container .lightbox-content {
+	max-width: 100%;
+	max-height: calc(90vh - 60px);
 	border-radius: 4px;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 	transform: scale(0.9);
 	transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.lightbox.active .lightbox-content {
+.lightbox.active .lightbox-container .lightbox-content {
 	transform: scale(1);
 }
 
-.lightbox-close {
-	position: absolute;
-	top: 2rem;
-	right: 2rem;
+.lightbox-caption {
+	margin-top: 1rem;
+	padding: 0.75rem 1.5rem;
+	background: rgba(0, 0, 0, 0.7);
 	color: #fff;
-	font-size: 2rem;
-	cursor: pointer;
-	background: transparent;
-	border: none;
-	outline: none;
-	transition: color 0.2s ease;
-	z-index: 10001;
+	font-size: 0.95rem;
+	text-align: center;
+	border-radius: 4px;
+	max-width: 100%;
+	line-height: 1.5;
+	opacity: 0;
+	transform: translateY(10px);
+	transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
 }
 
-.lightbox-close:hover {
-	color: #fca311;
+.lightbox.active .lightbox-caption {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+@media screen and (max-width: 736px) {
+	.lightbox-close:before {
+		top: 0.875rem;
+		left: 0.875rem;
+		width: 2.25rem;
+		height: 2.25rem;
+		background-size: 14px 14px;
+	}
 }

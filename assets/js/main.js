@@ -421,11 +421,12 @@
 
 	// Lightbox Functionality
 	$(document).ready(function () {
-		// Create lightbox elements
-		var $lightbox = $('<div class="lightbox"><button class="lightbox-close">&times;</button><img class="lightbox-content" src="" alt="Expanded Image"></div>');
+		// Create lightbox elements with caption support
+		var $lightbox = $('<div class="lightbox"><button class="lightbox-close">&times;</button><div class="lightbox-container"><img class="lightbox-content" src="" alt="Expanded Image"><div class="lightbox-caption"></div></div></div>');
 		$('body').append($lightbox);
 
 		var $lightboxContent = $lightbox.find('.lightbox-content');
+		var $lightboxCaption = $lightbox.find('.lightbox-caption');
 		var $lightboxClose = $lightbox.find('.lightbox-close');
 
 		// Escape key handler (bound only when lightbox is open)
@@ -435,8 +436,13 @@
 			}
 		}
 
-		function openLightbox(imgSrc) {
+		function openLightbox(imgSrc, caption) {
 			$lightboxContent.attr('src', imgSrc);
+			if (caption) {
+				$lightboxCaption.text(caption).show();
+			} else {
+				$lightboxCaption.hide();
+			}
 			$lightbox.addClass('active');
 			$(document).on('keydown.lightbox', handleEscapeKey);
 		}
@@ -451,7 +457,8 @@
 			e.preventDefault();
 			e.stopPropagation();
 			var imgSrc = $(this).find('img').attr('src');
-			openLightbox(imgSrc);
+			var caption = $(this).data('caption') || '';
+			openLightbox(imgSrc, caption);
 		});
 
 		// Close lightbox on close button click
