@@ -13,11 +13,20 @@
 
         body {
             font-family: 'Source Sans Pro', Helvetica, sans-serif;
-            background: #1b1f22;
             color: #ffffff;
             overflow: hidden;
             height: 100vh;
             width: 100vw;
+            /* Background directly on body - will never move */
+            background-color: #1b1f22;
+            background-image: 
+                linear-gradient(to top, rgba(19, 21, 25, 0.5), rgba(19, 21, 25, 0.5)),
+                url("images/overlay.png"),
+                url("images/bg.jpg");
+            background-size: auto, 256px 256px, cover;
+            background-position: center, center, center;
+            background-repeat: no-repeat, repeat, no-repeat;
+            background-attachment: fixed, fixed, fixed;
         }
 
         /* ===== MOCK HOMEPAGE ===== */
@@ -31,7 +40,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #1b1f22 0%, #2c3e50 100%);
+            background: none;
             z-index: 10;
             transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
@@ -47,6 +56,7 @@
             user-select: none;
             -webkit-user-select: none;
             touch-action: manipulation;
+            position: relative;
         }
 
         .logo-container img {
@@ -61,7 +71,7 @@
         }
 
         .logo-container.shaking img {
-            filter: drop-shadow(0 0 10px rgba(255, 100, 50, 0.8));
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8));
         }
 
         @keyframes rocket-shake {
@@ -76,7 +86,9 @@
             position: absolute;
             width: 140px;
             height: 140px;
-            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             pointer-events: none;
         }
 
@@ -88,8 +100,8 @@
 
         .countdown-ring circle {
             fill: none;
-            stroke: #ff6b35;
-            stroke-width: 3;
+            stroke: rgba(255, 255, 255, 0.8);
+            stroke-width: 2;
             stroke-dasharray: 408;
             stroke-dashoffset: 408;
             transition: stroke-dashoffset 0.1s linear;
@@ -103,11 +115,15 @@
         .homepage-text h1 {
             font-size: 2rem;
             margin-bottom: 0.5rem;
+            font-weight: 300;
+            letter-spacing: 0.2rem;
         }
 
         .homepage-text p {
             opacity: 0.7;
             font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
         }
 
         .hint {
@@ -116,7 +132,7 @@
             left: 50%;
             transform: translateX(-50%);
             font-size: 0.75rem;
-            opacity: 0.4;
+            opacity: 0.3;
             text-align: center;
         }
 
@@ -127,7 +143,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #000;
+            background: none;
             z-index: 5;
             transition: top 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             display: flex;
@@ -141,41 +157,44 @@
         }
 
         #game-canvas {
-            border: 2px solid #33ff33;
-            background: #000;
-            image-rendering: pixelated;
-            image-rendering: crisp-edges;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(27, 31, 34, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border-radius: 4px;
         }
 
         #game-ui {
             position: absolute;
-            top: 10px;
+            top: 20px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             gap: 40px;
             font-family: 'Courier New', monospace;
-            font-size: 18px;
-            color: #33ff33;
-            text-shadow: 0 0 10px #33ff33;
+            font-size: 16px;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            letter-spacing: 0.1rem;
         }
 
         #exit-hint {
             position: absolute;
-            bottom: 10px;
+            bottom: 15px;
             left: 50%;
             transform: translateX(-50%);
             font-family: 'Courier New', monospace;
-            font-size: 12px;
-            color: #33ff33;
-            opacity: 0.6;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 0.05rem;
         }
 
         /* Mobile controls */
         #mobile-controls {
             display: none;
             position: absolute;
-            bottom: 40px;
+            bottom: 50px;
             left: 0;
             width: 100%;
             padding: 0 20px;
@@ -184,28 +203,32 @@
         }
 
         .mobile-btn {
-            width: 70px;
-            height: 70px;
-            border: 2px solid #33ff33;
+            width: 65px;
+            height: 65px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
-            background: rgba(51, 255, 51, 0.1);
-            color: #33ff33;
-            font-size: 24px;
+            background: rgba(27, 31, 34, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
             user-select: none;
             -webkit-user-select: none;
             touch-action: manipulation;
+            box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.3);
         }
 
         .mobile-btn:active {
-            background: rgba(51, 255, 51, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
         }
 
         .direction-btns {
             display: flex;
-            gap: 10px;
+            gap: 15px;
         }
 
         @media (pointer: coarse) {
@@ -217,22 +240,28 @@
             }
         }
 
-        /* Game Over / Start Screen */
+        /* Game Over / Start Screen - Modal Style */
         #game-overlay {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: auto;
+            max-width: 90%;
+            padding: 3rem 4rem;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(27, 31, 34, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
             z-index: 100;
             font-family: 'Courier New', monospace;
-            color: #33ff33;
-            text-shadow: 0 0 10px #33ff33;
+            color: #ffffff;
         }
 
         #game-overlay.hidden {
@@ -240,73 +269,148 @@
         }
 
         #game-overlay h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            animation: blink 1s infinite;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 400;
+            letter-spacing: 0.3rem;
+            animation: pulse-glow 2s infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.3); }
+            50% { text-shadow: 0 0 30px rgba(255, 255, 255, 0.6); }
         }
 
         #game-overlay p {
-            font-size: 1rem;
-            margin: 0.5rem 0;
+            font-size: 0.85rem;
+            margin: 0.3rem 0;
+            opacity: 0.7;
+            letter-spacing: 0.1rem;
+            text-align: center;
         }
 
         #game-overlay .score-display {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             margin: 1rem 0;
+            letter-spacing: 0.15rem;
         }
 
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0.3; }
+        /* Sensitivity Slider */
+        .slider-container {
+            margin-top: 1.5rem;
+            width: 100%;
+            text-align: center;
+        }
+
+        .slider-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.1rem;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .slider-value {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        #sensitivity-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            max-width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            outline: none;
+            margin: 0.5rem 0;
+        }
+
+        #sensitivity-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #ffffff;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        #sensitivity-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+        }
+
+        #sensitivity-slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: #ffffff;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
         .start-btn {
-            margin-top: 2rem;
-            padding: 15px 40px;
+            margin-top: 1.5rem;
+            padding: 12px 35px;
             font-family: 'Courier New', monospace;
-            font-size: 1.2rem;
+            font-size: 0.95rem;
             background: transparent;
-            border: 2px solid #33ff33;
-            color: #33ff33;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: #ffffff;
             cursor: pointer;
-            text-shadow: 0 0 10px #33ff33;
-            box-shadow: 0 0 20px rgba(51, 255, 51, 0.3);
-            transition: all 0.3s;
+            letter-spacing: 0.15rem;
+            transition: all 0.3s ease;
+            border-radius: 4px;
         }
 
         .start-btn:hover {
-            background: rgba(51, 255, 51, 0.2);
-            box-shadow: 0 0 30px rgba(51, 255, 51, 0.5);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        @media screen and (max-width: 480px) {
+            #game-overlay {
+                padding: 2rem 2.5rem;
+            }
+            #game-overlay h2 {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Mock Homepage -->
     <div id="homepage">
-        <div class="countdown-ring">
-            <svg viewBox="0 0 140 140">
-                <circle cx="70" cy="70" r="65" id="progress-ring"></circle>
-            </svg>
-        </div>
         <div class="logo-container" id="logo-trigger">
+            <div class="countdown-ring">
+                <svg viewBox="0 0 140 140">
+                    <circle cx="70" cy="70" r="65" id="progress-ring"></circle>
+                </svg>
+            </div>
             <img src="images/RAC-Arrow_3.webp" alt="RAC Logo" id="logo-img">
         </div>
         <div class="homepage-text">
             <h1>Rise Above Consulting</h1>
             <p>Innovative Problem Solving</p>
         </div>
-        <div class="hint">Hint: Hold the logo for 10 seconds...</div>
+        <div class="hint">Hint: Hold the logo for 5 seconds...</div>
     </div>
 
     <!-- Game Container -->
     <div id="game-container">
         <div id="game-ui">
-            <div>SCORE: <span id="score">0</span></div>
-            <div>LIVES: <span id="lives">3</span></div>
-            <div>HI-SCORE: <span id="hi-score">0</span></div>
+            <div>SCORE <span id="score">0</span></div>
+            <div>LIVES <span id="lives">3</span></div>
+            <div>HI-SCORE <span id="hi-score">0</span></div>
         </div>
         <canvas id="game-canvas"></canvas>
-        <div id="exit-hint">Press ESC to exit | Arrow keys to move | Space to fire</div>
+        <div id="exit-hint">ESC to exit | Arrow keys to move | Space to fire</div>
         
         <!-- Mobile Controls -->
         <div id="mobile-controls">
@@ -314,7 +418,7 @@
                 <button class="mobile-btn" id="btn-left">◀</button>
                 <button class="mobile-btn" id="btn-right">▶</button>
             </div>
-            <button class="mobile-btn" id="btn-fire">🔥</button>
+            <button class="mobile-btn" id="btn-fire">FIRE</button>
         </div>
 
         <!-- Game Overlay -->
@@ -323,6 +427,11 @@
             <p>RAC Edition</p>
             <div class="score-display" id="final-score-display"></div>
             <p id="overlay-instructions">Arrow Keys / Touch to Move<br>Space / Tap Fire to Shoot</p>
+            <div class="slider-container" id="slider-container">
+                <label class="slider-label">SHIP SPEED</label>
+                <input type="range" id="sensitivity-slider" min="0.5" max="2.5" step="0.1" value="1.0">
+                <span class="slider-value" id="sensitivity-value">1.0x</span>
+            </div>
             <button class="start-btn" id="start-btn">START GAME</button>
         </div>
     </div>
@@ -360,12 +469,11 @@
             }
 
             shoot() {
-                this.playTone(800, 0.1, 'square', 0.2);
-                setTimeout(() => this.playTone(600, 0.05, 'square', 0.15), 50);
+                this.playTone(800, 0.1, 'square', 0.15);
+                setTimeout(() => this.playTone(600, 0.05, 'square', 0.1), 50);
             }
 
             explosion() {
-                // White noise burst for explosion
                 if (!this.ctx) return;
                 const bufferSize = this.ctx.sampleRate * 0.15;
                 const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
@@ -380,35 +488,34 @@
                 noise.buffer = buffer;
                 noise.connect(gainNode);
                 gainNode.connect(this.ctx.destination);
-                gainNode.gain.setValueAtTime(0.3, this.ctx.currentTime);
+                gainNode.gain.setValueAtTime(0.25, this.ctx.currentTime);
                 noise.start();
             }
 
             playerHit() {
-                this.playTone(200, 0.3, 'sawtooth', 0.4);
-                setTimeout(() => this.playTone(100, 0.3, 'sawtooth', 0.3), 100);
+                this.playTone(200, 0.3, 'sawtooth', 0.3);
+                setTimeout(() => this.playTone(100, 0.3, 'sawtooth', 0.2), 100);
             }
 
             invaderMove() {
-                this.playTone(100 + Math.random() * 50, 0.05, 'square', 0.1);
+                this.playTone(80 + Math.random() * 40, 0.05, 'square', 0.08);
             }
 
             gameOver() {
                 const notes = [400, 350, 300, 250, 200];
                 notes.forEach((freq, i) => {
-                    setTimeout(() => this.playTone(freq, 0.3, 'square', 0.3), i * 200);
+                    setTimeout(() => this.playTone(freq, 0.3, 'square', 0.25), i * 200);
                 });
             }
 
             levelUp() {
                 const notes = [523, 659, 784, 1047];
                 notes.forEach((freq, i) => {
-                    setTimeout(() => this.playTone(freq, 0.15, 'square', 0.25), i * 100);
+                    setTimeout(() => this.playTone(freq, 0.15, 'square', 0.2), i * 100);
                 });
             }
 
             rocketLaunch() {
-                // Rising frequency for rocket launch
                 if (!this.ctx) return;
                 const oscillator = this.ctx.createOscillator();
                 const gainNode = this.ctx.createGain();
@@ -420,7 +527,7 @@
                 oscillator.frequency.setValueAtTime(100, this.ctx.currentTime);
                 oscillator.frequency.exponentialRampToValueAtTime(800, this.ctx.currentTime + 1);
                 
-                gainNode.gain.setValueAtTime(0.3, this.ctx.currentTime);
+                gainNode.gain.setValueAtTime(0.25, this.ctx.currentTime);
                 gainNode.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 1);
                 
                 oscillator.start(this.ctx.currentTime);
@@ -429,6 +536,12 @@
         }
 
         const audio = new AudioEngine();
+
+        // ===== LOAD PLAYER SHIP IMAGE =====
+        const playerShipImg = new Image();
+        playerShipImg.src = 'images/RAC-Arrow_3.webp';
+        let shipImageLoaded = false;
+        playerShipImg.onload = () => { shipImageLoaded = true; };
 
         // ===== EASTER EGG TRIGGER =====
         const logoTrigger = document.getElementById('logo-trigger');
@@ -439,8 +552,8 @@
         let holdTimer = null;
         let holdStartTime = null;
         let holdProgress = 0;
-        const HOLD_DURATION = 10000; // 10 seconds
-        const circumference = 2 * Math.PI * 65; // Circle circumference
+        const HOLD_DURATION = 5000; // 5 seconds
+        const circumference = 2 * Math.PI * 65;
 
         function startHold(e) {
             e.preventDefault();
@@ -456,12 +569,10 @@
             const elapsed = Date.now() - holdStartTime;
             holdProgress = Math.min(elapsed / HOLD_DURATION, 1);
             
-            // Update ring progress
             const offset = circumference * (1 - holdProgress);
             progressRing.style.strokeDashoffset = offset;
             
             if (holdProgress >= 1) {
-                // Trigger the easter egg!
                 triggerEasterEgg();
             } else {
                 holdTimer = requestAnimationFrame(updateProgress);
@@ -483,21 +594,17 @@
             audio.rocketLaunch();
             logoTrigger.classList.remove('shaking');
             
-            // Slide homepage down
             homepage.classList.add('slide-down');
             
-            // Bring game down from above
             setTimeout(() => {
                 gameContainer.classList.add('descend');
             }, 200);
             
-            // Initialize game after animation
             setTimeout(() => {
                 initGame();
             }, 1700);
         }
 
-        // Event listeners for hold trigger
         logoTrigger.addEventListener('mousedown', startHold);
         logoTrigger.addEventListener('touchstart', startHold, { passive: false });
         
@@ -517,14 +624,12 @@
         const finalScoreDisplay = document.getElementById('final-score-display');
         const overlayInstructions = document.getElementById('overlay-instructions');
 
-        // Game settings
         let CANVAS_WIDTH, CANVAS_HEIGHT, SCALE;
         
         function resizeCanvas() {
             const maxWidth = Math.min(window.innerWidth - 40, 600);
             const maxHeight = Math.min(window.innerHeight - 200, 500);
             
-            // Maintain aspect ratio
             const aspectRatio = 600 / 500;
             
             if (maxWidth / maxHeight > aspectRatio) {
@@ -555,21 +660,22 @@
 
         hiScoreDisplay.textContent = hiScore;
 
-        // Player ship (RAC Arrow)
+        // Player ship
         const player = {
             x: 0,
             y: 0,
             width: 40,
             height: 40,
-            speed: 5,
-            color: '#ff6b35' // RAC orange color
+            speed: 8
         };
+
+        let sensitivity = 1.0; // Multiplier from slider (0.5 to 2.5)
 
         // Bullets
         let playerBullets = [];
         let invaderBullets = [];
         const BULLET_SPEED = 7;
-        const PLAYER_FIRE_RATE = 250; // ms between shots
+        const PLAYER_FIRE_RATE = 250;
         let lastFireTime = 0;
 
         // Invaders
@@ -577,14 +683,13 @@
         const INVADER_ROWS = 5;
         const INVADER_COLS = 11;
         let invaderDirection = 1;
-        let invaderSpeed = 1;
+        let invaderSpeed = 0.8; // Smooth movement speed
         let invaderMoveTimer = 0;
-        let invaderMoveInterval = 500;
+        let invaderMoveInterval = 300; // For sprite animation only
         let invaderDropAmount = 20;
 
-        // Classic Space Invader sprites (as pixel arrays)
+        // Classic Space Invader sprites (pixel arrays)
         const INVADER_SPRITES = {
-            // Top row (squid) - 8x8
             squid: [
                 [0,0,0,1,1,0,0,0],
                 [0,0,1,1,1,1,0,0],
@@ -605,7 +710,6 @@
                 [1,0,0,0,0,0,0,1],
                 [0,1,0,0,0,0,1,0]
             ],
-            // Middle rows (crab) - 11x8
             crab: [
                 [0,0,1,0,0,0,0,0,1,0,0],
                 [0,0,0,1,0,0,0,1,0,0,0],
@@ -626,7 +730,6 @@
                 [0,0,1,0,0,0,0,0,1,0,0],
                 [0,1,0,0,0,0,0,0,0,1,0]
             ],
-            // Bottom rows (octopus) - 12x8
             octopus: [
                 [0,0,0,0,1,1,1,1,0,0,0,0],
                 [0,1,1,1,1,1,1,1,1,1,1,0],
@@ -649,8 +752,23 @@
             ]
         };
 
-        // Invader colors
-        const INVADER_COLORS = ['#ff0000', '#ffff00', '#00ffff', '#00ff00', '#ff00ff'];
+        // Invader colors - white/light theme to match website
+        const INVADER_COLORS = [
+            'rgba(255, 255, 255, 0.9)',
+            'rgba(255, 255, 255, 0.8)',
+            'rgba(255, 255, 255, 0.7)',
+            'rgba(255, 255, 255, 0.65)',
+            'rgba(255, 255, 255, 0.6)'
+        ];
+
+        // RAC letter pattern for level 1 (19 columns x 5 rows)
+        const RAC_PATTERN = [
+            [1,1,1,1,0, 0,0, 0,1,1,1,0, 0,0, 0,1,1,1,1],
+            [1,0,0,0,1, 0,0, 1,0,0,0,1, 0,0, 1,0,0,0,0],
+            [1,1,1,1,0, 0,0, 1,1,1,1,1, 0,0, 1,0,0,0,0],
+            [1,0,0,1,0, 0,0, 1,0,0,0,1, 0,0, 1,0,0,0,0],
+            [1,0,0,0,1, 0,0, 1,0,0,0,1, 0,0, 0,1,1,1,1]
+        ];
 
         // Input handling
         const keys = {
@@ -687,30 +805,37 @@
         btnFire.addEventListener('touchstart', (e) => { e.preventDefault(); keys.fire = true; });
         btnFire.addEventListener('touchend', () => keys.fire = false);
 
-        // Draw RAC Arrow ship
+        // Draw player ship using the RAC Arrow image
         function drawPlayer() {
             const s = SCALE;
-            ctx.save();
-            ctx.translate(player.x, player.y);
+            const shipWidth = player.width * s;
+            const shipHeight = player.height * s;
             
-            // Draw arrow shape pointing up
-            ctx.fillStyle = player.color;
-            ctx.beginPath();
-            // Arrow pointing up
-            ctx.moveTo(player.width * s / 2, 0); // Top point
-            ctx.lineTo(player.width * s, player.height * s * 0.7); // Bottom right
-            ctx.lineTo(player.width * s * 0.7, player.height * s * 0.5); // Inner right
-            ctx.lineTo(player.width * s * 0.7, player.height * s); // Tail right
-            ctx.lineTo(player.width * s * 0.3, player.height * s); // Tail left
-            ctx.lineTo(player.width * s * 0.3, player.height * s * 0.5); // Inner left
-            ctx.lineTo(0, player.height * s * 0.7); // Bottom left
-            ctx.closePath();
-            ctx.fill();
+            ctx.save();
             
             // Add glow effect
-            ctx.shadowColor = player.color;
-            ctx.shadowBlur = 10 * s;
-            ctx.fill();
+            ctx.shadowColor = 'rgba(255, 255, 255, 0.6)';
+            ctx.shadowBlur = 15 * s;
+            
+            if (shipImageLoaded) {
+                // Draw the actual RAC Arrow image
+                ctx.drawImage(
+                    playerShipImg,
+                    player.x,
+                    player.y,
+                    shipWidth,
+                    shipHeight
+                );
+            } else {
+                // Fallback: simple triangle if image not loaded
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.beginPath();
+                ctx.moveTo(player.x + shipWidth / 2, player.y);
+                ctx.lineTo(player.x + shipWidth, player.y + shipHeight);
+                ctx.lineTo(player.x, player.y + shipHeight);
+                ctx.closePath();
+                ctx.fill();
+            }
             
             ctx.restore();
         }
@@ -718,6 +843,9 @@
         // Draw pixel sprite
         function drawSprite(sprite, x, y, pixelSize, color) {
             ctx.fillStyle = color;
+            ctx.shadowColor = color;
+            ctx.shadowBlur = 3;
+            
             for (let row = 0; row < sprite.length; row++) {
                 for (let col = 0; col < sprite[row].length; col++) {
                     if (sprite[row][col]) {
@@ -730,11 +858,68 @@
                     }
                 }
             }
+            ctx.shadowBlur = 0;
         }
 
         // Create invaders
         function createInvaders() {
             invaders = [];
+            
+            // Use RAC pattern for level 1, standard grid for other levels
+            if (level === 1) {
+                createRACFormation();
+            } else {
+                createStandardFormation();
+            }
+        }
+
+        function createRACFormation() {
+            const pattern = RAC_PATTERN;
+            const cols = pattern[0].length;
+            const rows = pattern.length;
+            
+            // Center the pattern with tighter spacing to fit and leave room for movement
+            const spacingX = 25 * SCALE;
+            const spacingY = 35 * SCALE;
+            const totalWidth = cols * spacingX;
+            const startX = (CANVAS_WIDTH - totalWidth) / 2 + 20 * SCALE; // Extra margin
+            const startY = 50 * SCALE;
+
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    if (pattern[row][col] === 1) {
+                        let type, width, points;
+                        if (row === 0) {
+                            type = 'squid';
+                            width = 8;
+                            points = 30;
+                        } else if (row < 3) {
+                            type = 'crab';
+                            width = 11;
+                            points = 20;
+                        } else {
+                            type = 'octopus';
+                            width = 12;
+                            points = 10;
+                        }
+
+                        invaders.push({
+                            x: startX + col * spacingX,
+                            y: startY + row * spacingY,
+                            type: type,
+                            width: width,
+                            height: 8,
+                            alive: true,
+                            frame: 0,
+                            color: INVADER_COLORS[row],
+                            points: points
+                        });
+                    }
+                }
+            }
+        }
+
+        function createStandardFormation() {
             const startX = 50 * SCALE;
             const startY = 60 * SCALE;
             const spacingX = 45 * SCALE;
@@ -774,50 +959,20 @@
 
         // Update invaders
         function updateInvaders(deltaTime) {
+            const aliveInvaders = invaders.filter(i => i.alive);
+            if (aliveInvaders.length === 0) return;
+
+            // Sprite animation timer (keeps classic look)
             invaderMoveTimer += deltaTime;
-            
             if (invaderMoveTimer >= invaderMoveInterval) {
                 invaderMoveTimer = 0;
-                
-                // Toggle animation frame
                 invaders.forEach(inv => {
                     if (inv.alive) inv.frame = inv.frame === 0 ? 1 : 0;
                 });
-
-                // Check if any invader hit the edge
-                let hitEdge = false;
-                const aliveInvaders = invaders.filter(i => i.alive);
-                
-                aliveInvaders.forEach(inv => {
-                    const futureX = inv.x + (20 * SCALE * invaderDirection);
-                    const invWidth = inv.width * 3 * SCALE;
-                    if (futureX + invWidth > CANVAS_WIDTH - 10 || futureX < 10) {
-                        hitEdge = true;
-                    }
-                });
-
-                if (hitEdge) {
-                    invaderDirection *= -1;
-                    aliveInvaders.forEach(inv => {
-                        inv.y += invaderDropAmount * SCALE;
-                    });
-                    
-                    // Check if invaders reached player
-                    const lowestInvader = Math.max(...aliveInvaders.map(i => i.y + i.height * 3 * SCALE));
-                    if (lowestInvader >= player.y) {
-                        gameOver();
-                        return;
-                    }
-                } else {
-                    aliveInvaders.forEach(inv => {
-                        inv.x += 10 * SCALE * invaderDirection;
-                    });
-                }
-
                 audio.invaderMove();
-
-                // Random invader shooting
-                if (aliveInvaders.length > 0 && Math.random() < 0.3) {
+                
+                // Random shooting on animation tick
+                if (Math.random() < 0.3) {
                     const shooter = aliveInvaders[Math.floor(Math.random() * aliveInvaders.length)];
                     invaderBullets.push({
                         x: shooter.x + (shooter.width * 3 * SCALE) / 2,
@@ -826,6 +981,43 @@
                         height: 10 * SCALE
                     });
                 }
+            }
+
+            // Smooth movement every frame
+            const moveAmount = invaderSpeed * SCALE * invaderDirection;
+            
+            // Check if any invader would hit the edge
+            let hitEdge = false;
+            aliveInvaders.forEach(inv => {
+                const futureX = inv.x + moveAmount;
+                const invWidth = inv.width * 3 * SCALE;
+                if (futureX + invWidth > CANVAS_WIDTH - 10 || futureX < 10) {
+                    hitEdge = true;
+                }
+            });
+
+            if (hitEdge) {
+                // Reverse direction and drop down
+                invaderDirection *= -1;
+                aliveInvaders.forEach(inv => {
+                    inv.y += invaderDropAmount * SCALE;
+                });
+                
+                // Speed up slightly as invaders are destroyed
+                const speedBoost = 1 + (55 - aliveInvaders.length) * 0.015;
+                invaderSpeed = 0.8 * speedBoost;
+                
+                // Check if invaders reached player
+                const lowestInvader = Math.max(...aliveInvaders.map(i => i.y + i.height * 3 * SCALE));
+                if (lowestInvader >= player.y) {
+                    gameOver();
+                    return;
+                }
+            } else {
+                // Smooth horizontal movement
+                aliveInvaders.forEach(inv => {
+                    inv.x += moveAmount;
+                });
             }
         }
 
@@ -866,7 +1058,6 @@
 
         // Update bullets
         function updateBullets() {
-            // Player bullets
             playerBullets.forEach((bullet, index) => {
                 bullet.y -= BULLET_SPEED * SCALE;
                 if (bullet.y < 0) {
@@ -874,7 +1065,6 @@
                 }
             });
 
-            // Invader bullets
             invaderBullets.forEach((bullet, index) => {
                 bullet.y += BULLET_SPEED * 0.6 * SCALE;
                 if (bullet.y > CANVAS_HEIGHT) {
@@ -885,17 +1075,17 @@
 
         // Draw bullets
         function drawBullets() {
-            // Player bullets (orange like the ship)
-            ctx.fillStyle = player.color;
-            ctx.shadowColor = player.color;
-            ctx.shadowBlur = 5 * SCALE;
+            // Player bullets - white to match theme
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
+            ctx.shadowBlur = 8 * SCALE;
             playerBullets.forEach(bullet => {
                 ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
             });
 
-            // Invader bullets (white)
-            ctx.fillStyle = '#ffffff';
-            ctx.shadowColor = '#ffffff';
+            // Invader bullets - slightly dimmer
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx.shadowColor = 'rgba(255, 255, 255, 0.5)';
             invaderBullets.forEach(bullet => {
                 ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
             });
@@ -907,7 +1097,6 @@
         function checkCollisions() {
             const pixelSize = 3 * SCALE;
             
-            // Player bullets vs invaders
             playerBullets.forEach((bullet, bIndex) => {
                 invaders.forEach(inv => {
                     if (!inv.alive) return;
@@ -926,7 +1115,6 @@
                         scoreDisplay.textContent = score;
                         audio.explosion();
                         
-                        // Check if all invaders dead
                         if (invaders.every(i => !i.alive)) {
                             levelUp();
                         }
@@ -934,7 +1122,6 @@
                 });
             });
 
-            // Invader bullets vs player
             invaderBullets.forEach((bullet, index) => {
                 if (bullet.x < player.x + player.width * SCALE &&
                     bullet.x + bullet.width > player.x &&
@@ -957,7 +1144,8 @@
         function levelUp() {
             level++;
             audio.levelUp();
-            invaderMoveInterval = Math.max(100, 500 - level * 50);
+            invaderMoveInterval = Math.max(150, 300 - level * 20);
+            invaderSpeed = 0.8 + level * 0.2; // Faster each level
             createInvaders();
         }
 
@@ -976,6 +1164,7 @@
             finalScoreDisplay.textContent = `Final Score: ${score}`;
             finalScoreDisplay.style.display = 'block';
             overlayInstructions.style.display = 'none';
+            document.getElementById('slider-container').style.display = 'none';
             startBtn.textContent = 'PLAY AGAIN';
             overlay.classList.remove('hidden');
         }
@@ -996,7 +1185,8 @@
             score = 0;
             lives = 3;
             level = 1;
-            invaderMoveInterval = 500;
+            invaderMoveInterval = 300;
+            invaderSpeed = 0.8;
             invaderDirection = 1;
             playerBullets = [];
             invaderBullets = [];
@@ -1006,6 +1196,7 @@
             overlayTitle.textContent = 'SPACE INVADERS';
             finalScoreDisplay.style.display = 'none';
             overlayInstructions.style.display = 'block';
+            document.getElementById('slider-container').style.display = 'block';
             startBtn.textContent = 'START GAME';
             overlay.classList.remove('hidden');
         }
@@ -1026,7 +1217,8 @@
             score = 0;
             lives = 3;
             level = 1;
-            invaderMoveInterval = 500;
+            invaderMoveInterval = 300;
+            invaderSpeed = 0.8;
             invaderDirection = 1;
             playerBullets = [];
             invaderBullets = [];
@@ -1045,6 +1237,25 @@
 
         startBtn.addEventListener('click', startGame);
 
+        // Sensitivity slider
+        const sensitivitySlider = document.getElementById('sensitivity-slider');
+        const sensitivityValue = document.getElementById('sensitivity-value');
+        const sliderContainer = document.getElementById('slider-container');
+        
+        // Load saved sensitivity
+        const savedSensitivity = localStorage.getItem('racInvadersSensitivity');
+        if (savedSensitivity) {
+            sensitivity = parseFloat(savedSensitivity);
+            sensitivitySlider.value = sensitivity;
+            sensitivityValue.textContent = sensitivity.toFixed(1) + 'x';
+        }
+
+        sensitivitySlider.addEventListener('input', (e) => {
+            sensitivity = parseFloat(e.target.value);
+            sensitivityValue.textContent = sensitivity.toFixed(1) + 'x';
+            localStorage.setItem('racInvadersSensitivity', sensitivity);
+        });
+
         // Game loop
         let lastTime = 0;
         
@@ -1054,16 +1265,17 @@
             const deltaTime = currentTime - lastTime;
             lastTime = currentTime;
 
-            // Clear canvas
-            ctx.fillStyle = '#000000';
+            // Clear canvas with semi-transparent background for trail effect
+            ctx.fillStyle = 'rgba(27, 31, 34, 0.95)';
             ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
             // Update player
+            const moveSpeed = player.speed * sensitivity * SCALE;
             if (keys.left && player.x > 0) {
-                player.x -= player.speed * SCALE;
+                player.x -= moveSpeed;
             }
             if (keys.right && player.x < CANVAS_WIDTH - player.width * SCALE) {
-                player.x += player.speed * SCALE;
+                player.x += moveSpeed;
             }
             if (keys.fire) {
                 firePlayerBullet();
@@ -1083,7 +1295,7 @@
         }
 
         // Draw initial state
-        ctx.fillStyle = '#000000';
+        ctx.fillStyle = 'rgba(27, 31, 34, 1)';
         ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     </script>
 </body>
