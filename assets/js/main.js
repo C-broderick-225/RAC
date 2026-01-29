@@ -421,8 +421,8 @@
 
 	// Lightbox Functionality
 	$(document).ready(function () {
-		// Create lightbox elements with caption support
-		var $lightbox = $('<div class="lightbox"><button class="lightbox-close">&times;</button><div class="lightbox-container"><img class="lightbox-content" src="" alt="Expanded Image"><div class="lightbox-caption"></div></div></div>');
+		// Create lightbox elements with caption support (close button matches article modal style)
+		var $lightbox = $('<div class="lightbox"><a href="#" class="lightbox-close"></a><div class="lightbox-container"><img class="lightbox-content" src="" alt="Expanded Image"><div class="lightbox-caption"></div></div></div>');
 		$('body').append($lightbox);
 
 		var $lightboxContent = $lightbox.find('.lightbox-content');
