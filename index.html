@@ -10,13 +10,22 @@
 	<title>Rise Above Consulting</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	
+	<!-- Preload critical resources for faster initial render -->
+	<link rel="preload" href="images/RAC-Arrow_3.webp" as="image" type="image/webp">
+	<link rel="preload" href="images/bg.jpg" as="image">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<!-- Preconnect to external image sources -->
+	<link rel="preconnect" href="https://worthless.dev">
+	
 	<link rel="stylesheet" href="assets/css/main.css" />
 	<link rel="icon" type="image/png" href="images/favicon.webp">
 	<noscript>
 		<link rel="stylesheet" href="assets/css/noscript.css" />
 	</noscript>
-	<!-- Space Invaders Easter Egg Styles -->
-	<link rel="stylesheet" href="assets/css/space-invaders.css" />
+	<!-- Space Invaders Easter Egg Styles - loaded async as it's non-critical -->
+	<link rel="stylesheet" href="assets/css/space-invaders.css" media="print" onload="this.media='all'">
 	<style>
 		/* Basic styling for the form status message so it's visible */
 		#formStatusMessage {
@@ -70,7 +79,7 @@
 			<article id="intro" class="header-icon-subtitle">
 				<div class="header-wrapper">
 					<div class="header-icon">
-						<img src="images/RAC-Arrow_3.webp" alt="RAC Logo" />
+						<img src="images/RAC-Arrow_3.webp" alt="RAC Logo" loading="lazy" decoding="async" />
 					</div>
 					<div class="header-text">
 						<h2 class="major">Introduction</h2>
@@ -87,7 +96,7 @@
 			<article id="work" class="header-icon-subtitle">
 				<div class="header-wrapper">
 					<div class="header-icon">
-						<img src="images/RAC-Arrow_3.webp" alt="RAC Logo" />
+						<img src="images/RAC-Arrow_3.webp" alt="RAC Logo" loading="lazy" decoding="async" />
 					</div>
 					<div class="header-text">
 						<h2 class="major">Work</h2>
@@ -120,7 +129,7 @@
 			<article id="projects" class="header-icon-subtitle">
 				<div class="header-wrapper">
 					<div class="header-icon">
-						<img src="images/RAC-Arrow_3.webp" alt="RAC Logo" />
+						<img src="images/RAC-Arrow_3.webp" alt="RAC Logo" loading="lazy" decoding="async" />
 					</div>
 					<div class="header-text">
 						<h2 class="major">Projects</h2>
@@ -153,7 +162,7 @@
 			<article id="project-1" class="header-icon-subtitle">
 				<div class="header-wrapper">
 					<div class="header-icon">
-						<img src="images/RAC-Arrow_3.webp" alt="RAC Logo" />
+						<img src="images/RAC-Arrow_3.webp" alt="RAC Logo" loading="lazy" decoding="async" />
 					</div>
 					<div class="header-text">
 						<h2 class="major">Battery Intelligence</h2>
@@ -198,16 +207,16 @@
 					</div>
 					<div class="project-gallery-sidebar">
 						<div class="gallery-thumbnail" data-caption="The RAC Secure Battery Intelligence Dashboard: A proprietary cloud-based interface displaying real-time cellular telemetry, state-of-health (SoH) analytics, and multi-protocol BMS data translation for high-performance LEV fleets.">
-							<img src="images/Projects/BaaS/battery-dashboard.png" alt="Battery Intelligence Dashboard" />
+							<img src="images/Projects/BaaS/battery-dashboard.png" alt="Battery Intelligence Dashboard" loading="lazy" decoding="async" />
 						</div>
 						<div class="gallery-thumbnail" data-caption="Escalate Alerts Modal - Quick escalation workflow for urgent issues">
-							<img src="images/Projects/BaaS/battery-escalate.png" alt="Escalate Alerts Modal" />
+							<img src="images/Projects/BaaS/battery-escalate.png" alt="Escalate Alerts Modal" loading="lazy" decoding="async" />
 						</div>
 						<div class="gallery-thumbnail" data-caption="Provisioning - End-to-End Asset Enrollment: This module manages the initial configuration and 'birth certificate' of each battery, allowing for rapid fleet scaling while maintaining a complete historical record of every unit from day one.">
-							<img src="images/Projects/BaaS/battery-provisioning.png" alt="Battery Provisioning" />
+							<img src="images/Projects/BaaS/battery-provisioning.png" alt="Battery Provisioning" loading="lazy" decoding="async" />
 						</div>
 						<div class="gallery-thumbnail" data-caption="Battery Alert Escalation - Multi-tier alert management system">
-							<img src="images/Projects/BaaS/battery-alert-escelate.png" alt="Battery Alert Escalate" />
+							<img src="images/Projects/BaaS/battery-alert-escelate.png" alt="Battery Alert Escalate" loading="lazy" decoding="async" />
 						</div>
 					</div>
 				</div>
@@ -219,7 +228,7 @@
 			<article id="project-2" class="header-icon-subtitle">
 				<div class="header-wrapper">
 					<div class="header-icon">
-						<img src="images/RAC-Arrow_3.webp" alt="RAC Logo" />
+						<img src="images/RAC-Arrow_3.webp" alt="RAC Logo" loading="lazy" decoding="async" />
 					</div>
 					<div class="header-text">
 						<h2 class="major">North Sound Architecture</h2>
@@ -232,19 +241,19 @@
 					</div>
 					<div class="project-gallery-sidebar">
 						<div class="gallery-thumbnail" data-caption="North Sound Architecture - Floor plan design">
-							<img src="images/Projects/NSA/floorplan.png" alt="North Sound Architecture - Floor plan design" />
+							<img src="images/Projects/NSA/floorplan.png" alt="North Sound Architecture - Floor plan design" loading="lazy" decoding="async" />
 						</div>
 						<div class="gallery-thumbnail" data-caption="North Sound Architecture - 3D rendering">
-							<img src="images/Projects/NSA/Lopez Church 2.10.jpg" alt="North Sound Architecture - Lopez Church 3D rendering" />
+							<img src="images/Projects/NSA/Lopez Church 2.10.jpg" alt="North Sound Architecture - Lopez Church 3D rendering" loading="lazy" decoding="async" />
 						</div>
 						<div class="gallery-thumbnail" data-caption="North Sound Architecture - 3D rendering">
-							<img src="images/Projects/NSA/Lopez_front view_final.png" alt="North Sound Architecture - Lopez Church eye level view" />
+							<img src="images/Projects/NSA/Lopez_front view_final.png" alt="North Sound Architecture - Lopez Church eye level view" loading="lazy" decoding="async" />
 						</div>
 						<div class="gallery-thumbnail" data-caption="North Sound Architecture - 3D rendering">
-							<img src="images/Projects/NSA/Lopez_birds eye view_final.png" alt="North Sound Architecture - Lopez Church birds eye view" />
+							<img src="images/Projects/NSA/Lopez_birds eye view_final.png" alt="North Sound Architecture - Lopez Church birds eye view" loading="lazy" decoding="async" />
 						</div>
 						<div class="gallery-thumbnail" data-caption="North Sound Architecture - 3D rendering">
-							<img src="images/Projects/NSA/Bakerview rd 1.jpg" alt="North Sound Architecture - Bakerview Road 3D rendering" />
+							<img src="images/Projects/NSA/Bakerview rd 1.jpg" alt="North Sound Architecture - Bakerview Road 3D rendering" loading="lazy" decoding="async" />
 						</div>
 					</div>
 				</div>
@@ -256,7 +265,7 @@
 			<article id="project-3" class="header-icon-subtitle">
 				<div class="header-wrapper">
 					<div class="header-icon">
-						<img src="images/RAC-Arrow_3.webp" alt="RAC Logo" />
+						<img src="images/RAC-Arrow_3.webp" alt="RAC Logo" loading="lazy" decoding="async" />
 					</div>
 					<div class="header-text">
 						<h2 class="major">Smart Display & Command Module</h2>
@@ -271,13 +280,13 @@
 					</div>
 					<div class="project-gallery-sidebar">
 						<div class="gallery-thumbnail" data-caption="Smart display and command module for custom light electric vehicles">
-							<img src="https://worthless.dev/products/fardriver_standalone_display/main_photo.png" alt="Smart display and command module for custom light electric vehicles" />
+							<img src="https://worthless.dev/products/fardriver_standalone_display/main_photo.png" alt="Smart display and command module for custom light electric vehicles" loading="lazy" decoding="async" />
 						</div>
 						<div class="gallery-thumbnail" data-caption="Smart display and command module for custom light electric vehicles">
-							<img src="https://worthless.dev/products/fardriver_standalone_display/secondary_photo.png" alt="Smart display and command module for custom light electric vehicles" />
+							<img src="https://worthless.dev/products/fardriver_standalone_display/secondary_photo.png" alt="Smart display and command module for custom light electric vehicles" loading="lazy" decoding="async" />
 						</div>
 						<div class="gallery-thumbnail" data-caption="Vehicle Data log analyzer and trip replay tool">
-							<img src="images/Projects/Worthless/Log-Viewer.png" alt="Vehicle Data log analyzer and trip replay tool that is a webapp." />
+							<img src="images/Projects/Worthless/Log-Viewer.png" alt="Vehicle Data log analyzer and trip replay tool that is a webapp." loading="lazy" decoding="async" />
 						</div>
 					</div>
 				</div>
@@ -288,7 +297,7 @@
 			<article id="project-4" class="header-icon-subtitle">
 				<div class="header-wrapper">
 					<div class="header-icon">
-						<img src="images/RAC-Arrow_3.webp" alt="RAC Logo" />
+						<img src="images/RAC-Arrow_3.webp" alt="RAC Logo" loading="lazy" decoding="async" />
 					</div>
 					<div class="header-text">
 						<h2 class="major">Custom Smart Lock & Keypad</h2>
@@ -322,13 +331,13 @@
 					</div>
 					<div class="project-gallery-sidebar">
 						<div class="gallery-thumbnail" data-caption="Keypad prototype - Functional demonstration">
-							<img src="images/Projects/Keypad/Keypad-demo (1).png" alt="Keypad prototype demonstration" />
+							<img src="images/Projects/Keypad/Keypad-demo (1).png" alt="Keypad prototype demonstration" loading="lazy" decoding="async" />
 						</div>
 						<div class="gallery-thumbnail" data-caption="Keypad prototype - Hardware integration">
-							<img src="images/Projects/Keypad/Keypad-demo (2).png" alt="Keypad prototype hardware integration" />
+							<img src="images/Projects/Keypad/Keypad-demo (2).png" alt="Keypad prototype hardware integration" loading="lazy" decoding="async" />
 						</div>
 						<div class="gallery-thumbnail" data-caption="Keypad prototype - Final assembly">
-							<img src="images/Projects/Keypad/Keypad-demo (4).png" alt="Keypad prototype final assembly" />
+							<img src="images/Projects/Keypad/Keypad-demo (4).png" alt="Keypad prototype final assembly" loading="lazy" decoding="async" />
 						</div>
 					</div>
 				</div>
@@ -339,7 +348,7 @@
 			<article id="about" class="header-icon-subtitle">
 				<div class="header-wrapper">
 					<div class="header-icon">
-						<img src="images/RAC-Arrow_3.webp" alt="RAC Logo" />
+						<img src="images/RAC-Arrow_3.webp" alt="RAC Logo" loading="lazy" decoding="async" />
 					</div>
 					<div class="header-text">
 						<h2 class="major">About</h2>
@@ -358,7 +367,7 @@
 			<article id="contact" class="header-icon-subtitle">
 				<div class="header-wrapper">
 					<div class="header-icon">
-						<img src="images/RAC-Arrow_3.webp" alt="RAC Logo" />
+						<img src="images/RAC-Arrow_3.webp" alt="RAC Logo" loading="lazy" decoding="async" />
 					</div>
 					<div class="header-text">
 						<h2 class="major">Contact</h2>
@@ -410,12 +419,12 @@
 	<!-- BG -->
 	<div id="bg"></div>
 
-	<!-- Scripts -->
-	<script src="assets/js/jquery.min.js"></script>
-	<script src="assets/js/browser.min.js"></script>
-	<script src="assets/js/breakpoints.min.js"></script>
-	<script src="assets/js/util.js"></script>
-	<script src="assets/js/main.js"></script>
+	<!-- Scripts - defer non-critical scripts for faster initial render -->
+	<script src="assets/js/jquery.min.js" defer></script>
+	<script src="assets/js/browser.min.js" defer></script>
+	<script src="assets/js/breakpoints.min.js" defer></script>
+	<script src="assets/js/util.js" defer></script>
+	<script src="assets/js/main.js" defer></script>
 
 	<!-- ADDED: Contact Form Script -->
 	<script>
@@ -480,8 +489,8 @@
 	<!-- Logo Overlay -->
 	<div class="logo-overlay"></div>
 
-	<!-- Space Invaders Easter Egg -->
-	<script src="assets/js/space-invaders.js"></script>
+	<!-- Space Invaders Easter Egg - deferred as non-critical -->
+	<script src="assets/js/space-invaders.js" defer></script>
 
 </body>
 

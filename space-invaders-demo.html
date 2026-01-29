@@ -171,12 +171,22 @@
             left: 50%;
             transform: translateX(-50%);
             display: flex;
+            flex-wrap: nowrap;
             gap: 40px;
             font-family: 'Courier New', monospace;
             font-size: 16px;
             color: #ffffff;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
             letter-spacing: 0.1rem;
+            white-space: nowrap;
+        }
+
+        @media screen and (max-width: 420px) {
+            #game-ui {
+                gap: 15px;
+                font-size: 13px;
+                letter-spacing: 0.05rem;
+            }
         }
 
         #exit-hint {
@@ -231,12 +241,27 @@
             gap: 15px;
         }
 
-        @media (pointer: coarse) {
+        /* Hide mobile controls on devices with fine pointer (mouse) */
+        @media (pointer: fine) {
+            #mobile-controls {
+                display: none !important;
+            }
+        }
+        
+        /* Show mobile controls only on small screens (mobile phones/tablets) */
+        @media (max-width: 768px) {
             #mobile-controls {
                 display: flex;
             }
             #exit-hint {
                 bottom: 130px;
+            }
+        }
+        
+        /* But still hide on small screens if a mouse is present */
+        @media (max-width: 768px) and (pointer: fine) {
+            #mobile-controls {
+                display: none !important;
             }
         }
 
@@ -805,60 +830,82 @@
         btnFire.addEventListener('touchstart', (e) => { e.preventDefault(); keys.fire = true; });
         btnFire.addEventListener('touchend', () => keys.fire = false);
 
-        // Draw player ship using the RAC Arrow image
-        function drawPlayer() {
-            const s = SCALE;
-            const shipWidth = player.width * s;
-            const shipHeight = player.height * s;
+        // ===== OPTIMIZED SPRITE CACHING SYSTEM =====
+        // Direct lookup table - no string keys, no per-frame allocations
+        // Structure: cachedSprites[typeIndex][colorIndex][frameIndex]
+        const cachedSprites = [];
+        let PIXEL_SIZE = 0;
+        let PLAYER_WIDTH = 0;
+        let PLAYER_HEIGHT = 0;
+        
+        function renderSprite(sprite, pixelSize, color) {
+            const width = sprite[0].length * pixelSize;
+            const height = sprite.length * pixelSize;
             
-            ctx.save();
+            const offscreen = document.createElement('canvas');
+            offscreen.width = width;
+            offscreen.height = height;
+            const offCtx = offscreen.getContext('2d');
             
-            // Add glow effect
-            ctx.shadowColor = 'rgba(255, 255, 255, 0.6)';
-            ctx.shadowBlur = 15 * s;
-            
-            if (shipImageLoaded) {
-                // Draw the actual RAC Arrow image
-                ctx.drawImage(
-                    playerShipImg,
-                    player.x,
-                    player.y,
-                    shipWidth,
-                    shipHeight
-                );
-            } else {
-                // Fallback: simple triangle if image not loaded
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-                ctx.beginPath();
-                ctx.moveTo(player.x + shipWidth / 2, player.y);
-                ctx.lineTo(player.x + shipWidth, player.y + shipHeight);
-                ctx.lineTo(player.x, player.y + shipHeight);
-                ctx.closePath();
-                ctx.fill();
-            }
-            
-            ctx.restore();
-        }
-
-        // Draw pixel sprite
-        function drawSprite(sprite, x, y, pixelSize, color) {
-            ctx.fillStyle = color;
-            ctx.shadowColor = color;
-            ctx.shadowBlur = 3;
-            
+            offCtx.fillStyle = color;
             for (let row = 0; row < sprite.length; row++) {
                 for (let col = 0; col < sprite[row].length; col++) {
                     if (sprite[row][col]) {
-                        ctx.fillRect(
-                            x + col * pixelSize,
-                            y + row * pixelSize,
+                        offCtx.fillRect(
+                            col * pixelSize,
+                            row * pixelSize,
                             pixelSize - 1,
                             pixelSize - 1
                         );
                     }
                 }
             }
-            ctx.shadowBlur = 0;
+            return offscreen;
+        }
+        
+        // Pre-cache ALL sprite variations at init - zero lookups during gameplay
+        function initSpriteCache() {
+            PIXEL_SIZE = 3 * SCALE;
+            PLAYER_WIDTH = player.width * SCALE;
+            PLAYER_HEIGHT = player.height * SCALE;
+            scaledBulletWidth = BULLET_WIDTH * SCALE;
+            scaledBulletHeight = BULLET_HEIGHT * SCALE;
+            bulletOffsetX = PLAYER_WIDTH * 0.5 - scaledBulletWidth * 0.5;
+            scaledBulletSpeed = BULLET_SPEED * SCALE;
+            scaledInvBulletSpeed = scaledBulletSpeed * 0.6;
+            
+            // Type index: 0=squid, 1=crab, 2=octopus
+            const spritesByType = [
+                [INVADER_SPRITES.squid, INVADER_SPRITES.squid2],
+                [INVADER_SPRITES.crab, INVADER_SPRITES.crab2],
+                [INVADER_SPRITES.octopus, INVADER_SPRITES.octopus2]
+            ];
+            
+            // Build lookup: cachedSprites[type][colorIndex][frame]
+            for (let t = 0; t < 3; t++) {
+                cachedSprites[t] = [];
+                for (let c = 0; c < INVADER_COLORS.length; c++) {
+                    cachedSprites[t][c] = [
+                        renderSprite(spritesByType[t][0], PIXEL_SIZE, INVADER_COLORS[c]),
+                        renderSprite(spritesByType[t][1], PIXEL_SIZE, INVADER_COLORS[c])
+                    ];
+                }
+            }
+        }
+
+        // Draw player ship (optimized - pre-calculated dimensions)
+        function drawPlayer() {
+            if (shipImageLoaded) {
+                ctx.drawImage(playerShipImg, player.x, player.y, PLAYER_WIDTH, PLAYER_HEIGHT);
+            } else {
+                ctx.fillStyle = '#fff';
+                ctx.beginPath();
+                ctx.moveTo(player.x + PLAYER_WIDTH * 0.5, player.y);
+                ctx.lineTo(player.x + PLAYER_WIDTH, player.y + PLAYER_HEIGHT);
+                ctx.lineTo(player.x, player.y + PLAYER_HEIGHT);
+                ctx.closePath();
+                ctx.fill();
+            }
         }
 
         // Create invaders
@@ -878,27 +925,27 @@
             const cols = pattern[0].length;
             const rows = pattern.length;
             
-            // Center the pattern with tighter spacing to fit and leave room for movement
             const spacingX = 25 * SCALE;
             const spacingY = 35 * SCALE;
             const totalWidth = cols * spacingX;
-            const startX = (CANVAS_WIDTH - totalWidth) / 2 + 20 * SCALE; // Extra margin
+            const startX = (CANVAS_WIDTH - totalWidth) / 2 + 20 * SCALE;
             const startY = 50 * SCALE;
 
             for (let row = 0; row < rows; row++) {
+                const colorIdx = Math.min(row, INVADER_COLORS.length - 1);
                 for (let col = 0; col < cols; col++) {
                     if (pattern[row][col] === 1) {
-                        let type, width, points;
+                        let typeIdx, width, points;
                         if (row === 0) {
-                            type = 'squid';
+                            typeIdx = 0; // squid
                             width = 8;
                             points = 30;
                         } else if (row < 3) {
-                            type = 'crab';
+                            typeIdx = 1; // crab
                             width = 11;
                             points = 20;
                         } else {
-                            type = 'octopus';
+                            typeIdx = 2; // octopus
                             width = 12;
                             points = 10;
                         }
@@ -906,12 +953,12 @@
                         invaders.push({
                             x: startX + col * spacingX,
                             y: startY + row * spacingY,
-                            type: type,
+                            typeIdx: typeIdx,
+                            colorIdx: colorIdx,
                             width: width,
                             height: 8,
                             alive: true,
                             frame: 0,
-                            color: INVADER_COLORS[row],
                             points: points
                         });
                     }
@@ -926,218 +973,273 @@
             const spacingY = 40 * SCALE;
 
             for (let row = 0; row < INVADER_ROWS; row++) {
+                const colorIdx = Math.min(row, INVADER_COLORS.length - 1);
+                let typeIdx, width, points;
+                if (row === 0) {
+                    typeIdx = 0;
+                    width = 8;
+                    points = 30;
+                } else if (row < 3) {
+                    typeIdx = 1;
+                    width = 11;
+                    points = 20;
+                } else {
+                    typeIdx = 2;
+                    width = 12;
+                    points = 10;
+                }
+                
                 for (let col = 0; col < INVADER_COLS; col++) {
-                    let type, width, points;
-                    if (row === 0) {
-                        type = 'squid';
-                        width = 8;
-                        points = 30;
-                    } else if (row < 3) {
-                        type = 'crab';
-                        width = 11;
-                        points = 20;
-                    } else {
-                        type = 'octopus';
-                        width = 12;
-                        points = 10;
-                    }
-
                     invaders.push({
                         x: startX + col * spacingX,
                         y: startY + row * spacingY,
-                        type: type,
+                        typeIdx: typeIdx,
+                        colorIdx: colorIdx,
                         width: width,
                         height: 8,
                         alive: true,
                         frame: 0,
-                        color: INVADER_COLORS[row],
                         points: points
                     });
                 }
             }
         }
 
-        // Update invaders
+        // Update invaders (optimized - no repeated filtering, use for loops)
         function updateInvaders(deltaTime) {
-            const aliveInvaders = invaders.filter(i => i.alive);
-            if (aliveInvaders.length === 0) return;
+            // Count alive and find bounds in single pass
+            let aliveCount = 0;
+            let leftMost = CANVAS_WIDTH;
+            let rightMost = 0;
+            let lowestY = 0;
+            
+            for (let i = 0; i < invaders.length; i++) {
+                const inv = invaders[i];
+                if (inv.alive) {
+                    aliveCount++;
+                    const invWidth = inv.width * PIXEL_SIZE;
+                    const invBottom = inv.y + inv.height * PIXEL_SIZE;
+                    if (inv.x < leftMost) leftMost = inv.x;
+                    if (inv.x + invWidth > rightMost) rightMost = inv.x + invWidth;
+                    if (invBottom > lowestY) lowestY = invBottom;
+                }
+            }
+            
+            if (aliveCount === 0) return;
 
-            // Sprite animation timer (keeps classic look)
+            // Sprite animation timer
             invaderMoveTimer += deltaTime;
             if (invaderMoveTimer >= invaderMoveInterval) {
                 invaderMoveTimer = 0;
-                invaders.forEach(inv => {
-                    if (inv.alive) inv.frame = inv.frame === 0 ? 1 : 0;
-                });
+                for (let i = 0; i < invaders.length; i++) {
+                    if (invaders[i].alive) {
+                        invaders[i].frame = invaders[i].frame === 0 ? 1 : 0;
+                    }
+                }
                 audio.invaderMove();
                 
-                // Random shooting on animation tick
-                if (Math.random() < 0.3) {
-                    const shooter = aliveInvaders[Math.floor(Math.random() * aliveInvaders.length)];
-                    invaderBullets.push({
-                        x: shooter.x + (shooter.width * 3 * SCALE) / 2,
-                        y: shooter.y + shooter.height * 3 * SCALE,
-                        width: 3 * SCALE,
-                        height: 10 * SCALE
-                    });
+                // Random shooting
+                if (Math.random() < 0.3 && aliveCount > 0) {
+                    // Pick random alive invader
+                    let targetIndex = Math.floor(Math.random() * aliveCount);
+                    for (let i = 0; i < invaders.length; i++) {
+                        if (invaders[i].alive) {
+                            if (targetIndex === 0) {
+                                const shooter = invaders[i];
+                                invaderBullets.push({
+                                    x: shooter.x + (shooter.width * PIXEL_SIZE) * 0.5,
+                                    y: shooter.y + shooter.height * PIXEL_SIZE,
+                                    width: PIXEL_SIZE,
+                                    height: PIXEL_SIZE * 3.33
+                                });
+                                break;
+                            }
+                            targetIndex--;
+                        }
+                    }
                 }
             }
 
             // Smooth movement every frame
             const moveAmount = invaderSpeed * SCALE * invaderDirection;
             
-            // Check if any invader would hit the edge
-            let hitEdge = false;
-            aliveInvaders.forEach(inv => {
-                const futureX = inv.x + moveAmount;
-                const invWidth = inv.width * 3 * SCALE;
-                if (futureX + invWidth > CANVAS_WIDTH - 10 || futureX < 10) {
-                    hitEdge = true;
-                }
-            });
+            // Check if would hit edge (using cached bounds)
+            const wouldHitEdge = (rightMost + moveAmount > CANVAS_WIDTH - 10) || 
+                                 (leftMost + moveAmount < 10);
 
-            if (hitEdge) {
+            if (wouldHitEdge) {
                 // Reverse direction and drop down
                 invaderDirection *= -1;
-                aliveInvaders.forEach(inv => {
-                    inv.y += invaderDropAmount * SCALE;
-                });
+                const dropAmount = invaderDropAmount * SCALE;
+                for (let i = 0; i < invaders.length; i++) {
+                    if (invaders[i].alive) {
+                        invaders[i].y += dropAmount;
+                    }
+                }
                 
-                // Speed up slightly as invaders are destroyed
-                const speedBoost = 1 + (55 - aliveInvaders.length) * 0.015;
+                // Speed up as invaders are destroyed
+                const speedBoost = 1 + (55 - aliveCount) * 0.015;
                 invaderSpeed = 0.8 * speedBoost;
                 
-                // Check if invaders reached player
-                const lowestInvader = Math.max(...aliveInvaders.map(i => i.y + i.height * 3 * SCALE));
-                if (lowestInvader >= player.y) {
+                // Check if reached player
+                if (lowestY + dropAmount >= player.y) {
                     gameOver();
                     return;
                 }
             } else {
-                // Smooth horizontal movement
-                aliveInvaders.forEach(inv => {
-                    inv.x += moveAmount;
-                });
+                // Horizontal movement
+                for (let i = 0; i < invaders.length; i++) {
+                    if (invaders[i].alive) {
+                        invaders[i].x += moveAmount;
+                    }
+                }
             }
         }
 
-        // Draw invaders
+        // Draw invaders (ultra-optimized - direct array lookup, no function calls)
         function drawInvaders() {
-            const pixelSize = 3 * SCALE;
-            
-            invaders.forEach(inv => {
-                if (!inv.alive) return;
+            for (let i = 0; i < invaders.length; i++) {
+                const inv = invaders[i];
+                if (!inv.alive) continue;
                 
-                let sprite;
-                if (inv.type === 'squid') {
-                    sprite = inv.frame === 0 ? INVADER_SPRITES.squid : INVADER_SPRITES.squid2;
-                } else if (inv.type === 'crab') {
-                    sprite = inv.frame === 0 ? INVADER_SPRITES.crab : INVADER_SPRITES.crab2;
-                } else {
-                    sprite = inv.frame === 0 ? INVADER_SPRITES.octopus : INVADER_SPRITES.octopus2;
-                }
-                
-                drawSprite(sprite, inv.x, inv.y, pixelSize, inv.color);
-            });
+                // Direct lookup: cachedSprites[typeIdx][colorIdx][frame]
+                const sprite = cachedSprites[inv.typeIdx][inv.colorIdx][inv.frame];
+                ctx.drawImage(sprite, inv.x, inv.y);
+            }
         }
 
-        // Fire player bullet
+        // Fire player bullet (optimized - use pre-calculated dimensions)
+        const BULLET_WIDTH = 4;
+        const BULLET_HEIGHT = 15;
+        let scaledBulletWidth = 0;
+        let scaledBulletHeight = 0;
+        let bulletOffsetX = 0;
+        
         function firePlayerBullet() {
             const now = Date.now();
             if (now - lastFireTime < PLAYER_FIRE_RATE) return;
             
             lastFireTime = now;
             playerBullets.push({
-                x: player.x + (player.width * SCALE) / 2 - 2 * SCALE,
+                x: player.x + bulletOffsetX,
                 y: player.y,
-                width: 4 * SCALE,
-                height: 15 * SCALE
+                width: scaledBulletWidth,
+                height: scaledBulletHeight
             });
             audio.shoot();
         }
 
-        // Update bullets
+        // Pre-calculated bullet speeds (set in initSpriteCache)
+        let scaledBulletSpeed = 0;
+        let scaledInvBulletSpeed = 0;
+        
+        // Update bullets (optimized - no allocations, backwards iteration for removal)
         function updateBullets() {
-            playerBullets.forEach((bullet, index) => {
-                bullet.y -= BULLET_SPEED * SCALE;
-                if (bullet.y < 0) {
-                    playerBullets.splice(index, 1);
+            // Update player bullet positions and remove off-screen (backwards for safe splice)
+            for (let i = playerBullets.length - 1; i >= 0; i--) {
+                playerBullets[i].y -= scaledBulletSpeed;
+                if (playerBullets[i].y < -20) {
+                    playerBullets.splice(i, 1);
                 }
-            });
-
-            invaderBullets.forEach((bullet, index) => {
-                bullet.y += BULLET_SPEED * 0.6 * SCALE;
-                if (bullet.y > CANVAS_HEIGHT) {
-                    invaderBullets.splice(index, 1);
+            }
+            
+            // Update invader bullet positions and remove off-screen
+            for (let i = invaderBullets.length - 1; i >= 0; i--) {
+                invaderBullets[i].y += scaledInvBulletSpeed;
+                if (invaderBullets[i].y > CANVAS_HEIGHT + 20) {
+                    invaderBullets.splice(i, 1);
                 }
-            });
+            }
         }
 
-        // Draw bullets
+        // Draw bullets (optimized - opaque colors, minimal state changes)
         function drawBullets() {
-            // Player bullets - white to match theme
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-            ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
-            ctx.shadowBlur = 8 * SCALE;
-            playerBullets.forEach(bullet => {
-                ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
-            });
-
-            // Invader bullets - slightly dimmer
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-            ctx.shadowColor = 'rgba(255, 255, 255, 0.5)';
-            invaderBullets.forEach(bullet => {
-                ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
-            });
+            ctx.fillStyle = '#fff';
             
-            ctx.shadowBlur = 0;
+            // Player bullets
+            for (let i = 0; i < playerBullets.length; i++) {
+                const b = playerBullets[i];
+                ctx.fillRect(b.x, b.y, b.width, b.height);
+            }
+
+            // Invader bullets (same color, skip fillStyle change)
+            for (let i = 0; i < invaderBullets.length; i++) {
+                const b = invaderBullets[i];
+                ctx.fillRect(b.x, b.y, b.width, b.height);
+            }
         }
 
-        // Collision detection
+        // Collision detection (ultra-optimized - no allocations during gameplay)
         function checkCollisions() {
-            const pixelSize = 3 * SCALE;
+            const playerRight = player.x + PLAYER_WIDTH;
+            const playerBottom = player.y + PLAYER_HEIGHT;
+            let invaderKilled = false;
+            let aliveCount = 0;
             
-            playerBullets.forEach((bullet, bIndex) => {
-                invaders.forEach(inv => {
-                    if (!inv.alive) return;
+            // Check player bullets vs invaders (iterate backwards for safe removal)
+            for (let i = playerBullets.length - 1; i >= 0; i--) {
+                const bullet = playerBullets[i];
+                const bulletRight = bullet.x + bullet.width;
+                const bulletBottom = bullet.y + bullet.height;
+                let bulletHit = false;
+                
+                for (let j = 0; j < invaders.length; j++) {
+                    const inv = invaders[j];
+                    if (!inv.alive) continue;
                     
-                    const invWidth = inv.width * pixelSize;
-                    const invHeight = inv.height * pixelSize;
+                    const invWidth = inv.width * PIXEL_SIZE;
+                    const invHeight = inv.height * PIXEL_SIZE;
                     
                     if (bullet.x < inv.x + invWidth &&
-                        bullet.x + bullet.width > inv.x &&
+                        bulletRight > inv.x &&
                         bullet.y < inv.y + invHeight &&
-                        bullet.y + bullet.height > inv.y) {
+                        bulletBottom > inv.y) {
                         
                         inv.alive = false;
-                        playerBullets.splice(bIndex, 1);
+                        bulletHit = true;
                         score += inv.points;
-                        scoreDisplay.textContent = score;
+                        invaderKilled = true;
                         audio.explosion();
-                        
-                        if (invaders.every(i => !i.alive)) {
-                            levelUp();
-                        }
+                        break;
                     }
-                });
-            });
-
-            invaderBullets.forEach((bullet, index) => {
-                if (bullet.x < player.x + player.width * SCALE &&
+                }
+                
+                if (bulletHit) {
+                    playerBullets.splice(i, 1);
+                }
+            }
+            
+            // Count alive invaders and check for level complete
+            if (invaderKilled) {
+                scoreDisplay.textContent = score;
+                for (let j = 0; j < invaders.length; j++) {
+                    if (invaders[j].alive) aliveCount++;
+                }
+                if (aliveCount === 0) {
+                    levelUp();
+                    return;
+                }
+            }
+            
+            // Check invader bullets vs player (iterate backwards)
+            for (let i = invaderBullets.length - 1; i >= 0; i--) {
+                const bullet = invaderBullets[i];
+                if (bullet.x < playerRight &&
                     bullet.x + bullet.width > player.x &&
-                    bullet.y < player.y + player.height * SCALE &&
+                    bullet.y < playerBottom &&
                     bullet.y + bullet.height > player.y) {
                     
-                    invaderBullets.splice(index, 1);
+                    invaderBullets.splice(i, 1);
                     lives--;
                     livesDisplay.textContent = lives;
                     audio.playerHit();
                     
                     if (lives <= 0) {
                         gameOver();
+                        return;
                     }
                 }
-            });
+            }
         }
 
         // Level up
@@ -1204,8 +1306,12 @@
         // Initialize game
         function initGame() {
             resizeCanvas();
-            player.x = CANVAS_WIDTH / 2 - (player.width * SCALE) / 2;
+            initSpriteCache(); // Pre-cache all sprites for performance
+            
+            // Use pre-calculated dimensions
+            player.x = CANVAS_WIDTH / 2 - PLAYER_WIDTH / 2;
             player.y = CANVAS_HEIGHT - 60 * SCALE;
+            playerMaxX = CANVAS_WIDTH - PLAYER_WIDTH;
             
             createInvaders();
             overlay.classList.remove('hidden');
@@ -1225,13 +1331,15 @@
             scoreDisplay.textContent = '0';
             livesDisplay.textContent = '3';
             
-            player.x = CANVAS_WIDTH / 2 - (player.width * SCALE) / 2;
+            player.x = CANVAS_WIDTH / 2 - PLAYER_WIDTH / 2;
             player.y = CANVAS_HEIGHT - 60 * SCALE;
+            playerMaxX = CANVAS_WIDTH - PLAYER_WIDTH;
             
             createInvaders();
             overlay.classList.add('hidden');
             gameRunning = true;
             lastTime = performance.now();
+            accumulator = 0;
             gameLoop();
         }
 
@@ -1256,25 +1364,39 @@
             localStorage.setItem('racInvadersSensitivity', sensitivity);
         });
 
-        // Game loop
+        // Game loop (optimized with frame limiting)
         let lastTime = 0;
+        const TARGET_FPS = 60;
+        const FRAME_TIME = 1000 / TARGET_FPS;
+        let accumulator = 0;
+        
+        // Pre-calculate player bounds for movement
+        let playerMaxX = 0;
         
         function gameLoop(currentTime = 0) {
             if (!gameRunning) return;
             
             const deltaTime = currentTime - lastTime;
             lastTime = currentTime;
+            
+            // Frame rate limiting - skip if too fast
+            accumulator += deltaTime;
+            if (accumulator < FRAME_TIME * 0.5) {
+                requestAnimationFrame(gameLoop);
+                return;
+            }
+            accumulator = 0;
 
-            // Clear canvas with semi-transparent background for trail effect
-            ctx.fillStyle = 'rgba(27, 31, 34, 0.95)';
+            // Clear canvas with opaque color (faster than alpha)
+            ctx.fillStyle = '#1b1f22';
             ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-            // Update player
+            // Update player (use pre-calculated bounds)
             const moveSpeed = player.speed * sensitivity * SCALE;
             if (keys.left && player.x > 0) {
                 player.x -= moveSpeed;
             }
-            if (keys.right && player.x < CANVAS_WIDTH - player.width * SCALE) {
+            if (keys.right && player.x < playerMaxX) {
                 player.x += moveSpeed;
             }
             if (keys.fire) {

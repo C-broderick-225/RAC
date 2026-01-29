@@ -101,12 +101,27 @@
     gap: 15px;
 }
 
-@media (pointer: coarse) {
+/* Hide mobile controls on devices with fine pointer (mouse) */
+@media (pointer: fine) {
+    #si-mobile-controls {
+        display: none !important;
+    }
+}
+
+/* Show mobile controls only on small screens (mobile phones/tablets) */
+@media (max-width: 768px) {
     #si-mobile-controls {
         display: flex;
     }
     #si-exit-hint {
         bottom: 130px;
+    }
+}
+
+/* But still hide on small screens if a mouse is present */
+@media (max-width: 768px) and (pointer: fine) {
+    #si-mobile-controls {
+        display: none !important;
     }
 }
 
