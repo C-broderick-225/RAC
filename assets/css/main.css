@@ -2153,9 +2153,6 @@ body.is-preload #footer {
 	width: 4rem;
 	height: 4rem;
 	cursor: pointer;
-	background: transparent;
-	border: none;
-	outline: none;
 	text-indent: 4rem;
 	overflow: hidden;
 	white-space: nowrap;
