@@ -1944,6 +1944,18 @@ body.is-preload #footer {
 	opacity: 1;
 }
 
+.project-card-icon {
+	font-size: 1.4rem;
+	color: rgba(255, 255, 255, 0.4);
+	margin-bottom: 0.6rem;
+	display: block;
+	transition: color 0.3s ease;
+}
+
+.project-card:hover .project-card-icon {
+	color: rgba(255, 255, 255, 0.7);
+}
+
 #formStatusMessage {
 	margin-top: 1em;
 	font-weight: bold;
@@ -1980,6 +1992,22 @@ body.is-preload #footer {
 	height: 100%;
 	width: auto;
 	opacity: 0.85;
+}
+
+.header-icon-subtitle .header-icon.project-icon {
+	width: 3.5rem;
+	height: 3.5rem;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.08);
+	border: 1px solid rgba(255, 255, 255, 0.15);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.header-icon-subtitle .header-icon.project-icon i {
+	font-size: 1.5rem;
+	color: rgba(255, 255, 255, 0.85);
 }
 
 .header-icon-subtitle .header-text {
@@ -2019,6 +2047,15 @@ body.is-preload #footer {
 	
 	.header-icon-subtitle .header-icon {
 		height: 2.5rem;
+	}
+
+	.header-icon-subtitle .header-icon.project-icon {
+		width: 2.5rem;
+		height: 2.5rem;
+	}
+
+	.header-icon-subtitle .header-icon.project-icon i {
+		font-size: 1.1rem;
 	}
 	
 	.header-icon-subtitle h2.major {
