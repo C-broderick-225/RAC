@@ -1,7 +1,7 @@
 # Ignore the ftp_tools directory
 ftp_tools/
 brand_messaging/
-website_review.md/
+website_review.md
 inject-version.js
 build/
 RAC.code-workspace
