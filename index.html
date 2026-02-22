@@ -86,7 +86,7 @@
 						<p class="header-subtitle">Empowering Your Vision</p>
 					</div>
 				</div>
-				<p>Welcome to Rise Above Consulting. We're a young, technically driven LLC focused on turning concepts into working prototypes. From hardware design and IoT development to cloud platforms and 3D visualization, we work hands-on alongside our partners to research, build, and test ideas in their earliest stages. We're not a large firm — we're builders who enjoy solving hard problems.</p>
+				<p>Welcome to Rise Above Consulting. We're a small LLC that likes getting into the weeds on technical problems. Most of our work right now lives in the IoT and battery space, but we also take on 3D visualization, cloud platform prototyping, and hardware design. We're not a big firm with a deep bench. We're a few people who'd rather build something and test it than talk about it in a slide deck.</p>
 			</article>
 
 			<!-- Work -->
@@ -100,31 +100,31 @@
 						<p class="header-subtitle">Services & Capabilities</p>
 					</div>
 				</div>
-				<p>Rise Above Consulting focuses on early-stage technical development — from concept research and feasibility through working prototypes. These are the areas we're actively building in:</p>
+				<p>We spend most of our time on early-stage technical work: figuring out if something is feasible, picking the right parts, writing the firmware or the backend, and getting a working prototype together. Here's where our current projects sit:</p>
 				<div class="project-grid">
 					<div class="project-card" onclick="location.hash='battery-intelligence'">
 						<h3><a href="#battery-intelligence">IoT & Embedded Hardware</a></h3>
-						<p>Exploring BMS protocol integration and cellular telemetry for connected battery-powered devices.</p>
+						<p>We're working with BMS protocols (JBD, ANT, JK) and cellular telemetry to build connected battery monitoring hardware.</p>
 					</div>
 					<div class="project-card" onclick="location.hash='smart-lock-keypad'">
 						<h3><a href="#smart-lock-keypad">Product Design & Prototyping</a></h3>
-						<p>Researching components and building functional prototypes — from hardware selection through hands-on integration testing.</p>
+						<p>Picking components, wiring up test rigs, writing firmware, and iterating until we have something that actually works.</p>
 					</div>
 					<div class="project-card" onclick="location.hash='charging-safety-module'">
 						<h3><a href="#charging-safety-module">Battery Safety & Energy Systems</a></h3>
-						<p>Developing smart monitoring concepts — thermal sensing, acoustic detection, and automated safety controls for indoor charging.</p>
+						<p>Our current focus is a module that monitors temperature, detects acoustic signs of battery venting, and cuts power automatically if something goes wrong.</p>
 					</div>
 					<div class="project-card" onclick="location.hash='battery-intelligence'">
 						<h3><a href="#battery-intelligence">Cloud Platforms & Data Analytics</a></h3>
-						<p>Prototyping cloud-based telemetry pipelines, health monitoring dashboards, and fleet management tools.</p>
+						<p>We've built early versions of a telemetry backend, a battery health dashboard, and fleet tracking tools. Still iterating.</p>
 					</div>
 					<div class="project-card" onclick="location.hash='north-sound-architecture'">
 						<h3><a href="#north-sound-architecture">3D Modeling & Visualization</a></h3>
-						<p>Creating floor plans, 3D renderings, and architectural visualizations in collaboration with design partners.</p>
+						<p>We partner with North Sound Architecture on floor plans, 3D renderings, and visual walkthroughs for residential and commercial projects.</p>
 					</div>
 					<div class="project-card" onclick="location.hash='smart-display-module'">
 						<h3><a href="#smart-display-module">Go-to-Market & Product Strategy</a></h3>
-						<p>Supporting early-stage hardware products with market research, positioning, and testing ahead of launch.</p>
+						<p>Helping hardware makers figure out who their product is for, how to position it, and what needs testing before it ships.</p>
 					</div>
 				</div>
 				<p>Select any card to see the project behind it, or visit our <a href="#projects">Projects</a> page for the full overview.</p>
@@ -141,8 +141,7 @@
 						<p class="header-subtitle">Our Portfolio</p>
 					</div>
 				</div>
-				<p>Welcome to our current and past Projects showcase. Here, we highlight specific initiatives where Rise Above Consulting
-					has delivered innovative solutions and tangible results.</p>
+				<p>Here's what we've been working on. Some of these are further along than others, but each one represents a real problem we're trying to solve.</p>
 				<div class="project-grid">
 					<div class="project-card" onclick="location.hash='battery-intelligence'">
 						<h3><a href="#battery-intelligence">Secure Battery Intelligence Platform</a></h3>
@@ -180,39 +179,18 @@
 				</div>
 				<div class="project-content-wrapper">
 					<div class="project-text-content">
-						<p>In partnership with <a href="https://worthless.dev" target="_blank" rel="noopener noreferrer">Worthless.Dev</a>, our Secure Battery Intelligence Platform represents custom hardware development and a vertically integrated data ecosystem tailored for the high-performance, long-range Light Electric Vehicle (LEV) sector.</p>
-						<p>The platform facilitates the translation of raw battery-cell data into actionable cloud analytics, supporting:</p>
-						<ul>
-							<li>Battery-as-a-Service (BaaS) rental and leasing-to-own strategies</li>
-							<li>Technical assurance for fleet administration</li>
-							<li>Battery leasing initiatives</li>
-						</ul>
+						<p>This is a joint project with <a href="https://worthless.dev" target="_blank" rel="noopener noreferrer">Worthless.Dev</a>. The goal is to build a data pipeline that takes raw battery cell data from Light Electric Vehicles (LEVs) and turns it into something useful in the cloud. The use cases we're targeting are Battery-as-a-Service (BaaS) rental programs, fleet management, and battery leasing.</p>
 
-						<h3>Core Technical Innovations</h3>
+						<h3>What We're Building</h3>
 
 						<h4>Data Translation Layer</h4>
-						<p>RAC is developing a proprietary hardware and software stack to translate disparate data streams into a unified telemetry format.</p>
-						<ul>
-							<li><strong>Multi-Protocol Support:</strong> Compatible with JBD, ANT, and JK Battery Management Systems (BMS)</li>
-							<li><strong>Seamless Monitoring:</strong> Enables diverse fleet assets to communicate with a central server</li>
-							<li><strong>Standardized Protocol:</strong> Ensures various hardware brands operate through a unified interface</li>
-						</ul>
+						<p>The biggest challenge is that different BMS brands speak different protocols. We're building a hardware and software bridge that takes data from JBD, ANT, and JK systems and normalizes it into a single format. That way a fleet with mixed hardware can still report to one server.</p>
 
 						<h4>Cellular-Edge Telemetry</h4>
-						<p>Battery units incorporate tamper-proof, dedicated low-power cellular communication modules for real-time data transmission.</p>
-						<ul>
-							<li><strong>Key Metrics:</strong> State of Charge, State of Health, and Thermal Profiles</li>
-							<li><strong>Always-On Connectivity:</strong> Eliminates manual Bluetooth synchronization</li>
-							<li><strong>Proactive Management:</strong> Enables predictive battery safety monitoring and fleet management</li>
-						</ul>
+						<p>Each battery unit gets a dedicated low-power cellular module. It pushes key data (State of Charge, State of Health, thermal profiles) to the cloud without the rider needing to do anything. No Bluetooth pairing, no manual sync. The data just flows.</p>
 
-						<h4>Predictive Health Monitoring & Smart Alerts</h4>
-						<p>RAC is developing a backend monitoring platform with sophisticated filtering capabilities.</p>
-						<ul>
-							<li><strong>Intelligent Filtering:</strong> Eliminates false "Critical" and "Warning" alerts from transient electrical noise</li>
-							<li><strong>Actionable Alerts:</strong> Notifies operators only of actual safety concerns or performance issues</li>
-							<li><strong>Scalable Operations:</strong> Efficiently manage hundreds of leased assets with reduced technical burden</li>
-						</ul>
+						<h4>Health Monitoring & Alert Filtering</h4>
+						<p>We're working on a backend that filters out the noise. Battery systems throw a lot of false "Critical" and "Warning" flags caused by transient electrical spikes. The system we're developing only surfaces alerts when there's an actual safety or performance concern, so fleet operators aren't drowning in phantom warnings.</p>
 					</div>
 					<div class="project-gallery-sidebar">
 						<div class="gallery-thumbnail" data-caption="The RAC Secure Battery Intelligence Dashboard: A proprietary cloud-based interface displaying real-time cellular telemetry, state-of-health (SoH) analytics, and multi-protocol BMS data translation for high-performance LEV fleets.">
@@ -386,11 +364,11 @@
 						<p><strong>Tier 1 – Smart Energy, Thermal & Acoustic Safety:</strong> Full AC monitoring, dual-probe early warning (thermal + acoustic), automatic cutoff, remote control, scheduling, and integration. Addresses indoor charging anxiety without replacing existing chargers.</p>
 						<p><strong>Tier 2 – Battery-Integrated Smart Module:</strong> All Tier 1 features plus BLE integration with compatible smart BMS (e.g. ANT, JK), state-of-charge–based charge termination, internal battery temperature and cell-imbalance awareness, and cross-verification of BMS data with thermal and acoustic telemetry for enhanced anomaly detection.</p>
 
-						<h3>Safety Differentiation</h3>
-						<p>Multi-modal defense: acoustic detection can flag early-stage thermal runaway nearly two minutes before ignition; thermal sensors typically lag 30–60 seconds. Modern acoustic venting models report 92–99% accuracy. Power is cut within the 5–20 second critical window to limit propagation. Purpose-built for indoor PEV charging—unlike generic EV chargers—with optional theft detection via circuit interruption and loss of thermal/acoustic connectivity.</p>
+						<h3>Why Both Sensors Matter</h3>
+						<p>Acoustic detection picks up the sound of a battery venting almost immediately. Thermal sensors have a lag, usually 30 to 60 seconds, because heat has to reach the surface before it's measurable. By combining both, the module can flag early-stage thermal runaway up to two minutes before ignition and cut power within a 5 to 20 second window. Published research on acoustic venting models shows 92–99% accuracy, which is significantly better than relying on heat alone. The module is built specifically for indoor PEV charging and also supports theft detection through circuit interruption monitoring and loss of sensor connectivity.</p>
 
-						<h3>Market & Vision</h3>
-						<p>Targets urban apartment dwellers, e-bike/scooter owners, high-value custom PEV builds, fleet operators, and battery rental/BaaS platforms. Long-term expansion may include insurance-aligned charging validation, fleet supervision, utility demand management, and data-driven battery safety analytics.</p>
+						<h3>Who It's For</h3>
+						<p>This is aimed at apartment dwellers, e-bike and scooter owners, people with high-value custom PEV builds, fleet operators, and battery rental or BaaS providers. Down the road, we see potential in insurance-aligned charging validation, fleet-level supervision, and utility demand management.</p>
 					</div>
 				</div>
 				<ul class="actions special">
@@ -407,7 +385,7 @@
 						<p class="header-subtitle">Who We Are</p>
 					</div>
 				</div>
-				<p>Rise Above Consulting is an early-stage LLC built around a curiosity for solving technical problems — particularly in IoT, battery systems, and connected hardware. We're still growing, and many of our projects are in the concept or prototype phase. What we bring to the table is a willingness to dig into hard problems, research thoroughly, and build working proof-of-concepts. If you have an idea that needs technical grounding, we'd love to figure it out together.</p>
+				<p>Rise Above Consulting is a small, early-stage LLC. We got started because we kept running into technical problems that were interesting enough to chase. Most of what we do right now is in IoT, battery systems, and connected hardware. A lot of our projects are still in the concept or prototype stage. We're honest about that. But we're good at researching a problem, building a proof-of-concept, and figuring out what works. If you've got something that needs technical grounding, reach out. We'd like to hear about it.</p>
 			</article>
 
 			<!-- Contact -->
