@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>RRDash — PEV Riding Dashboard</title>
+	<style>
+		:root {
+			--text: #1a1a1a;
+			--muted: #555;
+			--border: #ddd;
+			--accent: #2563eb;
+			--bg: #fff;
+		}
+		* { box-sizing: border-box; }
+		body {
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+			line-height: 1.6;
+			color: var(--text);
+			background: var(--bg);
+			max-width: 720px;
+			margin: 0 auto;
+			padding: 2rem 1.5rem;
+		}
+		h1 {
+			font-size: 1.75rem;
+			font-weight: 700;
+			margin: 0 0 0.25rem 0;
+			color: var(--text);
+		}
+		.subtitle {
+			font-size: 1rem;
+			color: var(--muted);
+			margin: 0 0 2rem 0;
+			font-weight: 400;
+		}
+		h2 {
+			font-size: 1.15rem;
+			font-weight: 600;
+			margin: 2rem 0 0.75rem 0;
+			padding-bottom: 0.25rem;
+			border-bottom: 1px solid var(--border);
+		}
+		h2:first-of-type { margin-top: 0; }
+		p { margin: 0 0 1rem 0; }
+		ul {
+			margin: 0 0 1rem 0;
+			padding-left: 1.5rem;
+		}
+		li { margin-bottom: 0.35rem; }
+		.feature-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+			gap: 0.75rem;
+			margin: 1rem 0;
+		}
+		.feature-card {
+			border: 1px solid var(--border);
+			border-radius: 6px;
+			padding: 0.75rem 1rem;
+			background: #fafafa;
+		}
+		.feature-card strong { display: block; margin-bottom: 0.25rem; }
+		.feature-card span { font-size: 0.9rem; color: var(--muted); }
+		.supported {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.5rem;
+			margin: 0.5rem 0 1rem 0;
+		}
+		.supported span {
+			background: #eff6ff;
+			color: var(--accent);
+			padding: 0.25rem 0.6rem;
+			border-radius: 4px;
+			font-size: 0.9rem;
+		}
+		.footer-note {
+			margin-top: 2.5rem;
+			padding-top: 1rem;
+			border-top: 1px solid var(--border);
+			font-size: 0.85rem;
+			color: var(--muted);
+		}
+		.figure {
+			margin: 1.25rem 0;
+			text-align: center;
+		}
+		.figure img {
+			max-width: 100%;
+			height: auto;
+			border: 1px solid var(--border);
+			border-radius: 6px;
+			display: block;
+			margin: 0 auto;
+		}
+		.figure .caption {
+			margin-top: 0.5rem;
+			font-size: 0.85rem;
+			color: var(--muted);
+			line-height: 1.4;
+		}
+		.figures-row {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 1rem;
+			justify-content: center;
+			margin: 1.25rem 0;
+		}
+		.figures-row .figure { flex: 1 1 280px; margin: 0; max-width: 100%; }
+
+		@media print {
+			body { padding: 1rem; max-width: 100%; }
+			h2 { page-break-after: avoid; }
+			.feature-card { break-inside: avoid; }
+			.figure { break-inside: avoid; }
+			.footer-note { margin-top: 2rem; }
+		}
+	</style>
+</head>
+<body>
+	<h1>RRDash</h1>
+	<p class="subtitle">PEV Riding Dashboard — Product Overview</p>
+
+	<p>RRDash is a standalone Android application that turns your phone or tablet into a real-time dashboard for Personal Electric Vehicles (PEVs). It connects over Bluetooth to your motor controller and optional Battery Management System (BMS), so you can see speed, power, battery state, temperatures, trip data, and range at a glance while riding.</p>
+
+	<h2>Supported hardware</h2>
+	<p>RRDash works with popular FOC controllers and BMS protocols used in the custom PEV community:</p>
+	<ul>
+		<li><strong>Controllers:</strong> FarDriver (BLE), Votol (Classic Bluetooth), and Votol CAN (CANBUS).</li>
+		<li><strong>BMS:</strong> JK, ANT, JBD/Xiaoxiang, and Hexa. Each protocol is selected in settings; the app displays SOC, voltage, current, per-cell voltages where supported, and temperature.</li>
+	</ul>
+	<div class="supported">
+		<span>FarDriver</span>
+		<span>Votol</span>
+		<span>Votol CAN</span>
+		<span>JK BMS</span>
+		<span>ANT BMS</span>
+		<span>JBD / Xiaoxiang</span>
+		<span>Hexa BMS</span>
+	</div>
+
+	<h2>Main dashboard</h2>
+	<p>The primary screen shows live ride data in a configurable layout. Status indicators (C and B) show controller and BMS connection. You get:</p>
+	<ul>
+		<li>Speed (km/h or mph), with choice of RPM-based, GPS-based, or hybrid speed source</li>
+		<li>Battery: voltage, SOC, amp-hours (used/total)</li>
+		<li>Power and current (W, A)</li>
+		<li>Motor and controller temperature</li>
+		<li>Gear/mode selection and fault or indicator status</li>
+		<li>RPM, odometer, trip distance, and estimated range</li>
+		<li>Clock and optional location</li>
+	</ul>
+	<p>Multiple dashboard styles (e.g. Default, Modern, Sport, Mono) and light/dark/auto theme let you match the display to your setup.</p>
+	<figure class="figure">
+		<img src="images/Projects/RRDash/RRDash_MainDashboard_NavTabs.jpg" alt="RRDash main dashboard with speedometer, battery, trip metrics, and BMS, Summary, Race, Settings, and Profile tabs." width="720" height="405" />
+		<p class="caption">Main dashboard with speedometer, battery, trip metrics, and navigation to BMS, Summary, Race, Settings, and Profile.</p>
+	</figure>
+
+	<h2>BMS monitor</h2>
+	<p>When a compatible BMS is connected, RRDash can show a dedicated BMS view with state of charge, pack voltage and current, total and remaining amp-hours, power, and temperatures. For BMS that report per-cell data (e.g. many JK and ANT units), the app displays individual cell voltages in a scrollable grid so you can spot imbalance or weak cells.</p>
+	<figure class="figure">
+		<img src="images/Projects/RRDash/RRDash_BMSMonitor_CellVoltages.jpg" alt="RRDash BMS monitor showing SOC, voltage, current, and per-cell voltage grid." width="720" height="405" />
+		<p class="caption">BMS monitor with per-cell voltages, SOC, voltage, current, and temperature.</p>
+	</figure>
+
+	<h2>Ride summary</h2>
+	<p>The summary screen aggregates your riding over time:</p>
+	<ul>
+		<li><strong>Daily and total:</strong> distance, time, energy used (kWh), energy recovered (regen), and CO₂ impact</li>
+		<li>Gear/mode usage (e.g. ECO, Normal, Turbo)</li>
+		<li>Top speed and longest trip</li>
+		<li>Trip route on a map and charts for daily distance and average speed</li>
+	</ul>
+	<figure class="figure">
+		<img src="images/Projects/RRDash/RRDash_RideSummary_AnalyticsMapCharts.jpg" alt="RRDash ride summary with daily and total stats, gear usage, map, and charts." width="720" height="405" />
+		<p class="caption">Ride summary with map, gear usage, top speed, and daily/total distance and energy charts.</p>
+	</figure>
+
+	<h2>Drag race timer</h2>
+	<p>RRDash includes a performance timer for acceleration and distance runs. You can measure and record times for 0–100 km/h, 0–200 km/h, 0–200 m, and 0–400 m. The screen shows current run placeholders, status (e.g. READY), and a START control; GPS is used where applicable for speed or distance.</p>
+	<figure class="figure">
+		<img src="images/Projects/RRDash/RRDash_DragRaceTimer_Ready.jpg" alt="RRDash drag race timer ready to start 0–100 km/h and other runs." width="720" height="405" />
+		<p class="caption">Drag race timer ready to start 0–100 km/h and other acceleration or distance runs.</p>
+	</figure>
+
+	<h2>Profiles and settings</h2>
+	<p><strong>Profiles:</strong> Save separate controller and BMS configurations (device choices, protocol, etc.) to Profile 1 and Profile 2. Switch between them from the main dashboard so one device can serve multiple bikes or setups.</p>
+	<p><strong>Settings:</strong> The app lets you choose controller type and BMS protocol, optional device names, dashboard style and theme, time format, speed source and unit, RPM scaling (max RPM, poles for hub vs mid drive), and voltage calibration for SOC when reading from the controller. Auto-reconnect and “use device name instead of MAC” improve usability. An optional <strong>auto launcher</strong> mode allows RRDash to appear as a launcher and auto-start after boot (when the device is unlocked), so a dedicated tablet can act as a fixed dash.</p>
+
+	<div class="figures-row">
+		<figure class="figure">
+			<img src="images/Projects/RRDash/RRDash_Settings_ControllerBMS.jpg" alt="RRDash settings: controller type, BMS protocol, and UI options." width="720" height="405" />
+			<p class="caption">Settings: Controller type (FarDriver/Votol), BMS protocol (JK, ANT, JBD, Hexa), and UI options.</p>
+		</figure>
+		<figure class="figure">
+			<img src="images/Projects/RRDash/RRDash_ProfileSelection.jpg" alt="RRDash profile selection for switching saved configurations." width="720" height="405" />
+			<p class="caption">Profile selection for switching between saved controller and BMS configurations.</p>
+		</figure>
+	</div>
+
+	<h2>Requirements</h2>
+	<ul>
+		<li>Android device with Bluetooth</li>
+		<li>Compatible FarDriver or Votol FOC controller</li>
+		<li>Optional: ANT or JK (or other supported) BMS for battery and cell-level data</li>
+	</ul>
+
+	<p class="footer-note">This overview describes RRDash at a high level. For support, custom design requests, or the latest compatibility list, contact the developer. You can save this page as a PDF via your browser’s Print → Save as PDF.</p>
+</body>
+</html>
